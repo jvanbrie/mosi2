@@ -151,7 +151,7 @@
         <span class="happiness label extreme"><font color="black">Extreme</font></span>
 
       <input id="happiness" name="happiness" type="hidden" value="-1" />
-      <input id="happinessSliders" name="happinessSliders" type="hidden" value="-1" />
+      <input id="happinessSliders" name="happinessSliders" type="hidden" value="" />
 
     
     </div>
@@ -178,7 +178,8 @@
       <span class="sadness label medium"><font color="black">Moderate</font></span> 
       <span class="sadness label strong"><font color="black">Strong</font></span> 
       <span class="sadness label extreme"><font color="black">Extreme</font></span></center>
-      <input id="sadness" name="sadness" type="hidden" value="-1"/>
+      <input id="sadness" name="sadness" type="hidden" value="-1" />
+      <input id="sadnessSliders" name="sadnessSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
@@ -204,6 +205,7 @@
       <span class="fear label strong"><font color="black">Strong</font></span> 
       <span class="fear label extreme"><font color="black">Extreme</font></span></center>
       <input id="fear" name="fear" type="hidden" value="-1" />
+      <input id="fearSliders" name="fearSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
@@ -229,6 +231,7 @@
       <span class="anger label strong"><font color="black">Strong</font></span> 
       <span class="anger label extreme"><font color="black">Extreme</font></span></center>
       <input id="anger" name="anger" type="hidden" value="-1" />
+      <input id="angerSliders" name="angerSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
@@ -254,6 +257,7 @@
       <span class="disgust label strong"><font color="black">Strong</font></span> 
       <span class="disgust label extreme"><font color="black">Extreme</font></span></center>
       <input id="disgust" name="disgust" type="hidden" value="-1" />
+      <input id="disgustSliders" name="disgustSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
@@ -279,6 +283,7 @@
       <span class="surprise label strong"><font color="black">Strong</font></span> 
       <span class="surprise label extreme"><font color="black">Extreme</font></span></center>
       <input id="surprise" name="surprise" type="hidden" value="-1" />
+      <input id="surpriseSliders" name="surpriseSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
@@ -411,10 +416,34 @@
   var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var currentClipLabel = 0;
 
-  function add(id) {
+  function add(id,min,max) {
   //Create an input type dynamically.
     var element = document.createElement("input");
     element.id = id;
+    var sliderTextID = label_fors[currentClipLabel] + "Sliders";
+
+    document.getElementById(sliderTextID).value += (min + '-' + max + ',');
+
+    function concreteIndex(index){
+      return function(value){
+        //This checks if we truly have the two value we expect to have
+        if(value[1] != null){
+          var temp = (document.getElementById(sliderTextID).value).split(",");
+          temp[index] = value[0] + '-' + value[1]; 
+          temp.join(",");
+          document.getElementById(sliderTextID).value = temp;
+        }
+        var minutes0 = Math.floor(value[0] / 60);
+        var seconds0 = value[0] - (minutes0 * 60);
+        var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
+        var minutes1 = Math.floor(value[1] / 60);
+        var seconds1 = value[1] - (minutes1 * 60);
+        var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
+        return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
+      }
+    }
+
+
 
     var segHead = document.getElementById("segmentHeader");
     //Append the element in page (in span).  
@@ -423,22 +452,14 @@
     $('#' + id).css("width", ($('#player').width()) - 20 + "px");
     $('#' + id).slider({
           max : player.getDuration(),
-          value : [selectorMin,selectorMax],
-          formatter: function(value) {
-            var minutes0 = Math.floor(value[0] / 60);
-            var seconds0 = value[0] - (minutes0 * 60);
-            var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
-            var minutes1 = Math.floor(value[1] / 60);
-            var seconds1 = value[1] - (minutes1 * 60);
-            var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
-            return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
-          },
+          value : [min,max],
+          formatter: concreteIndex(labelClipCounts[currentClipLabel]),
           id : "selectClip"
         });
 
   }
   document.getElementById("createNewSegment").onclick = function() {
-    add(label_fors[currentClipLabel] + "Slider" + labelClipCounts[currentClipLabel]);
+    add(label_fors[currentClipLabel] + "Slider" + labelClipCounts[currentClipLabel],selectorMin,selectorMax);
     labelClipCounts[currentClipLabel]++;
   };
 
@@ -483,6 +504,7 @@
           max : player.getDuration(),
           value : [0,player.getDuration()],
           formatter: function(value) {
+            //This checks if we truly have the two value we expect to have
             if(value[1] != null){
               selectorMin = value[0];
               selectorMax = value[1];
@@ -512,20 +534,27 @@
           var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
           var sliderBaseID = currentLabel + "Slider";
           //This loop runs once for each slider for the given label
-          for(k = 0; k < labelClipCounts[j]; k++){
-            sliderID = sliderBaseID + k.toString();
-            $('#' + sliderID).hide();
-          }
 
           var labelSelector = document.getElementById(labelSelectorID);
           var clipSelector = document.getElementById(clipSelectorID);
           labelSelector.style.backgroundColor = "#8fbd8f";
           //$('#valenceSlider')
         }
-        console.log(index);
-        for(k = 0; k < labelClipCounts[index]; k++){
+        var currentLabel = label_fors[currentClipLabel];
+        var sliderBaseID = currentLabel + "Slider";
+        for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
           sliderID = sliderBaseID + k.toString();
-          $('#' + sliderID).show();
+          remove(currentLabel + "Slider" + (k.toString()));
+        }
+
+        var currentLabel = label_fors[index];
+        var sliderTextID = currentLabel + "Sliders";
+        var temp = (document.getElementById(sliderTextID).value).split(",");
+        var sliderBaseID = currentLabel + "Slider";
+        for(k = 0; k < labelClipCounts[index]; k++){
+          var temp2 = (temp[k]).split("-")
+          sliderID = sliderBaseID + k.toString();
+          add(currentLabel + "Slider" + (k.toString()),parseInt(temp2[0]),parseInt(temp2[1]));
         }
 
         var currentLabel = label_fors[index];
