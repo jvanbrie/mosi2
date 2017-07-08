@@ -1,0 +1,898 @@
+<!-- HIT template: Sentiment-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
+<!DOCTYPE html>
+<html lang="en">
+
+<meta content="width=device-width,initial-scale=1" name="viewport" />
+<meta charset="utf-8"/>
+<style type="text/css">
+.label {
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  color: black;
+}
+.selected {
+  background-color: #fff59d !important;
+}
+.none {
+  background-color: white;
+}
+.weak {
+  background-color: #dfdfdf;
+}
+.medium {
+  background-color: #c1c1c1;
+}
+.strong {
+  background-color: #8d8d8d;
+}
+.extreme {
+  background-color: #6f6f6f;
+}
+#selectClip {
+    margin-left: 10px !important;
+}
+#selectClip .slider-selection {
+  background: yellow;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4=" crossorigin="anonymous"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+<section class="container" id="Sentiment"><!-- Instructions (collapsible) -->
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <div class="panel panel-primary"><!-- WARNING: the ids "collapseTrigger"
+      and "instructionBody" are being used to enable expand/collapse feature
+      --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Video Analysis Instructions</strong> 
+      <span class="collapse-text">(Click to expand)</span> </a>
+        <div class="panel-body" id="instructionBody"><strong>You must
+        answer all questins in the first part. Then click continue and
+        fill out all questions that apply in the second part. This
+        table describes some of the terms used: </strong>
+          <table class="table table-condensed table-striped table-responsive">
+            <tbody>
+            </tbody>
+            <colgroup>
+            <col class="col-xs-2 col-md-2" />
+            <col class="col-xs-10 col-md-10" />
+          </colgroup>
+          <!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
+          <tbody>
+            <tr>
+              <th>Term</th>
+              <th>Definition</th>
+            </tr>
+            <tr>
+              <td>Arousal</td>
+              <td>The level of the emotional response caused by the speaker.</td>
+            </tr>
+            <tr>
+              <td>Valence</td>
+              <td>The direction of the emotional response caused by the speaker (positive or negative)</td>
+            </tr>
+            <tr>
+              <td>Ethos</td>
+              <td>Persuasion based on the credibility or character of the speaker</td>
+            </tr>
+            <tr>
+              <td>Pathos</td>
+              <td>Persuasion based appealing to emotion</td>
+            </tr>
+            <tr>
+              <td>Logos</td>
+              <td>Persuasion based on a logical argument</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- End instructions --><!-- Categorization Layout -->
+
+<h2 style="color: red; margin: 2%;" id="warning">You Must Answer all Questions
+ in Part 1</h2>
+
+<!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
+<div class="row" style="margin:1%;">
+  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="background-color: white; width:50%; height: auto; display:inline-block; float:left;">
+    <div class="myIframe" frameborder="0" id="player" scrolling="no"  width="100%"></div>
+
+    <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span>
+    <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" class="btn btn-default" id="createNewSegment">Create New Segment</button>
+    <button class="btn btn-danger" id="removeLastSegment">Remove Last Segment</button>
+    <div>
+      <h4>Segments:</h4>
+      <div id="segmentHeader"> </div>
+
+      
+
+    </div>
+
+  </div>
+
+  <div class="col-md-3">
+   <ul class="nav nav-tabs">
+      <li class="active"><a href="#emotion" data-toggle="tab">Sentiment</a></li>
+      <li><a href="#persuasion" data-toggle="tab">Persuasion</a></li>
+
+    </ul>
+    <div class="tab-content">
+    <div id="emotion" class="tab-pane active">
+    <h4>Ekman Emotions</h4>
+
+
+    <div class="input-group">
+      <p><b>Happiness</b></p>
+        <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentHappiness" class="btn btn-default btn-sm">Segment Now</button>
+        <div class="btn-group">
+          <button type="button" id="selectHappinessClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Clip  
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Clip 1</a>
+            </li>
+          </ul>
+        </div>
+        <br>
+        <span class="happiness label none" value="0"><font color="black">None</font></span> 
+        <span class="happiness label weak"><font color="black">Weak</font></span> 
+        <span class="happiness label medium"><font color="black">Moderate</font></span> 
+        <span class="happiness label strong"><font color="black">Strong</font></span> 
+        <span class="happiness label extreme"><font color="black">Extreme</font></span>
+
+      <input id="happiness" name="happiness" type="hidden" value="-1" />
+      <input id="happinessSliders" name="happinessSliders" type="hidden" value="-1" />
+
+    
+    </div>
+
+
+    <div class="input-group" style="margin-top: 10px;">
+      <p><b>Sadness</b></p>
+      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSadness" class="btn btn-default btn-sm">Segment Now</button>
+        <div class="btn-group">
+          <button type="button" id="selectSadnessClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Clip  
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Clip 1</a>
+            </li>
+          </ul>
+        </div>
+        <br>
+
+      <center>
+      <span class="sadness label none"><font color="black">None</font></span> 
+      <span class="sadness label weak"><font color="black">Weak</font></span> 
+      <span class="sadness label medium"><font color="black">Moderate</font></span> 
+      <span class="sadness label strong"><font color="black">Strong</font></span> 
+      <span class="sadness label extreme"><font color="black">Extreme</font></span></center>
+      <input id="sadness" name="sadness" type="hidden" value="-1"/>
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="input-group">
+      <p><b>Fear</b></p>
+      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFear" class="btn btn-default btn-sm">Segment Now</button>
+        <div class="btn-group">
+          <button type="button" id="selectFearClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Clip  
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Clip 1</a>
+            </li>
+          </ul>
+        </div>
+        <br>
+
+      <center>
+      <span class="fear label none"><font color="black">None</font></span> 
+      <span class="fear label weak"><font color="black">Weak</font></span> 
+      <span class="fear label medium"><font color="black">Moderate</font></span> 
+      <span class="fear label strong"><font color="black">Strong</font></span> 
+      <span class="fear label extreme"><font color="black">Extreme</font></span></center>
+      <input id="fear" name="fear" type="hidden" value="-1" />
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="input-group">
+      <p><b>Anger</b></p>
+      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAnger" class="btn btn-default btn-sm">Segment Now</button>
+        <div class="btn-group">
+          <button type="button" id="selectAngerClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Clip  
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Clip 1</a>
+            </li>
+          </ul>
+        </div>
+        <br>
+
+      <center>
+      <span class="anger label none"><font color="black">None</font></span> 
+      <span class="anger label weak"><font color="black">Weak</font></span> 
+      <span class="anger label medium"><font color="black">Moderate</font></span> 
+      <span class="anger label strong"><font color="black">Strong</font></span> 
+      <span class="anger label extreme"><font color="black">Extreme</font></span></center>
+      <input id="anger" name="anger" type="hidden" value="-1" />
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="input-group">
+      <p><b>Disgust</b></p>
+      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentDisgust" class="btn btn-default btn-sm">Segment Now</button>
+        <div class="btn-group">
+          <button type="button" id="selectDisgustClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Clip  
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Clip 1</a>
+            </li>
+          </ul>
+        </div>
+        <br>
+
+      <center>
+      <span class="disgust label none"><font color="black">None</font></span> 
+      <span class="disgust label weak"><font color="black">Weak</font></span> 
+      <span class="disgust label medium"><font color="black">Moderate</font></span> 
+      <span class="disgust label strong"><font color="black">Strong</font></span> 
+      <span class="disgust label extreme"><font color="black">Extreme</font></span></center>
+      <input id="disgust" name="disgust" type="hidden" value="-1" />
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="input-group">
+      <p><b>Surprise</b></p>
+      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSurprise" class="btn btn-default btn-sm">Segment Now</button>
+        <div class="btn-group">
+          <button type="button" id="selectSurpriseClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Clip  
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Clip 1</a>
+            </li>
+          </ul>
+        </div>
+        <br>
+
+      <center>
+      <span class="surprise label none"><font color="black">None</font></span> 
+      <span class="surprise label weak"><font color="black">Weak</font></span> 
+      <span class="surprise label medium"><font color="black">Moderate</font></span> 
+      <span class="surprise label strong"><font color="black">Strong</font></span> 
+      <span class="surprise label extreme"><font color="black">Extreme</font></span></center>
+      <input id="surprise" name="surprise" type="hidden" value="-1" />
+      <p>&nbsp;</p>
+    </div>
+
+    <p>&nbsp;</p>
+  </div>
+
+
+  <div id="persuasion" class="tab-pane">
+
+
+        <div class="input-group">
+          <p><b>Persuasion</b></p>
+
+          <center>
+          <span class="persuasion label none"><font color="black">None</font></span> 
+          <span class="persuasion label weak"><font color="black">Weak</font></span> 
+          <span class="persuasion label medium"><font color="black">Moderate</font></span> 
+          <span class="persuasion label strong"><font color="black">Strong</font></span> 
+          <span class="persuasion label extreme"><font color="black">Extreme</font></span></center>
+          <input id="persuasion" name="persuasion" required="" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Engagement</b></p>
+
+          <center>
+          <span class="engagement label none"><font color="black">None</font></span> 
+          <span class="engagement label weak"><font color="black">Weak</font></span> 
+          <span class="engagement label medium"><font color="black">Moderate</font></span> 
+          <span class="engagement label strong"><font color="black">Strong</font></span> 
+          <span class="engagement label extreme"><font color="black">Extreme</font></span></center>
+          <input id="engagement" name="engagement" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Humor</b></p>
+
+          <center>
+          <span class="humor label none"><font color="black">None</font></span> 
+          <span class="humor label weak"><font color="black">Weak</font></span> 
+          <span class="humor label medium"><font color="black">Moderate</font></span> 
+          <span class="humor label strong"><font color="black">Strong</font></span> 
+          <span class="humor label extreme"><font color="black">Extreme</font></span></center>
+          <input id="humor" name="humor" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Confidence</b></p>
+
+          <center>
+          <span class="confidence label none"><font color="black">None</font></span> 
+          <span class="confidence label weak"><font color="black">Weak</font></span> 
+          <span class="confidence label medium"><font color="black">Moderate</font></span> 
+          <span class="confidence label strong"><font color="black">Strong</font></span> 
+          <span class="confidence label extreme"><font color="black">Extreme</font></span></center>
+          <input id="confidence" name="confidence" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Gestures</b></p>
+
+          <center>
+          <span class="gestures label none"><font color="black">None</font></span> 
+          <span class="gestures label weak"><font color="black">Weak</font></span> 
+          <span class="gestures label medium"><font color="black">Moderate</font></span> 
+          <span class="gestures label strong"><font color="black">Strong</font></span> 
+          <span class="gestures label extreme"><font color="black">Extreme</font></span></center>
+          <input id="gestures" name="gestures" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+      </div>
+
+ 
+    
+
+     </div>
+     </div>
+    <!-- End Categorization Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" /><!-- Open internal style sheet -->
+    <style type="text/css">
+    #collapseTrigger{
+      color:#fff;
+      display: block;
+      text-decoration: none;
+    }
+    #submitButton{
+      white-space: normal;
+    }
+    #instructionBody table{
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    #instructionBody table caption{
+      text-align: left;
+      padding: 0 0 5px 0;
+    }
+    #Inputs{
+      display: block;
+      margin-top: 10px;
+    }
+    .content{
+      margin-bottom: 15px;
+    }
+    .radio:first-of-type{
+      margin-top: -5px;
+    }
+  </style>
+<!-- Close internal style sheet --><!-- External JS references -->
+<!-- Open internal javascript -->
+<script type="text/javascript">
+  var testingmode = true;
+
+  //TODO: remove random comments below
+  // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
+  var clipCount = 0;
+  var selectorMin = 0;
+  var selectorMax = 0;
+
+  var label_fors = [
+    "happiness", "sadness", "fear", "anger", "disgust", "surprise",
+    "persuasion", "engagement", "humor", "confidence", "gestures", "ethos",
+    "pathos", "logos", "genuine", "profesional", "credible", "intro", "setup",
+    "trustable", "human"
+    ];
+
+  var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  var currentClipLabel = 0;
+
+  function add(id) {
+  //Create an input type dynamically.
+    var element = document.createElement("input");
+    element.id = id;
+
+    var segHead = document.getElementById("segmentHeader");
+    //Append the element in page (in span).  
+    segHead.appendChild(element);
+
+    $('#' + id).css("width", ($('#player').width()) - 20 + "px");
+    $('#' + id).slider({
+          max : player.getDuration(),
+          value : [selectorMin,selectorMax],
+          formatter: function(value) {
+            var minutes0 = Math.floor(value[0] / 60);
+            var seconds0 = value[0] - (minutes0 * 60);
+            var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
+            var minutes1 = Math.floor(value[1] / 60);
+            var seconds1 = value[1] - (minutes1 * 60);
+            var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
+            return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
+          },
+          id : "selectClip"
+        });
+
+  }
+  document.getElementById("createNewSegment").onclick = function() {
+    add(label_fors[currentClipLabel] + "Slider" + labelClipCounts[currentClipLabel]);
+    labelClipCounts[currentClipLabel]++;
+  };
+
+  function remove(id){
+    var parent = document.getElementById("segmentHeader");
+    var child = document.getElementById(id);
+    $("#" + id).slider('destroy');
+    parent.removeChild(child);
+  }
+  document.getElementById("removeLastSegment").onclick = function() {
+    if(labelClipCounts[currentClipLabel] >= 1){
+      remove(label_fors[currentClipLabel] + "Slider" + (labelClipCounts[currentClipLabel]-1));
+      labelClipCounts[currentClipLabel]--;
+    }
+  };
+
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: "100%",
+          videoId: 'jay6mAeCqV4',
+          events: {
+            'onReady': onPlayerReady,
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
+        $('#selectClip').css("width", ($('#player').width()) - 20 + "px");
+        $('#selectClip').slider({
+          max : player.getDuration(),
+          value : [0,player.getDuration()],
+          formatter: function(value) {
+            if(value[1] != null){
+              selectorMin = value[0];
+              selectorMax = value[1];
+            }
+            var minutes0 = Math.floor(value[0] / 60);
+            var seconds0 = value[0] - (minutes0 * 60);
+            var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
+            var minutes1 = Math.floor(value[1] / 60);
+            var seconds1 = value[1] - (minutes1 * 60);
+            var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
+            return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
+          },
+          id : "selectClip"
+        });
+
+      }
+
+
+    $(document).ready(function() {
+
+
+
+      function setPrimaryLabel(index){
+        for(j = 0; j < 6; j++){
+          var currentLabel = label_fors[j];
+          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
+          var sliderBaseID = currentLabel + "Slider";
+          //This loop runs once for each slider for the given label
+          for(k = 0; k < labelClipCounts[j]; k++){
+            sliderID = sliderBaseID + k.toString();
+            $('#' + sliderID).hide();
+          }
+
+          var labelSelector = document.getElementById(labelSelectorID);
+          var clipSelector = document.getElementById(clipSelectorID);
+          labelSelector.style.backgroundColor = "#8fbd8f";
+          //$('#valenceSlider')
+        }
+        console.log(index);
+        for(k = 0; k < labelClipCounts[index]; k++){
+          sliderID = sliderBaseID + k.toString();
+          $('#' + sliderID).show();
+        }
+
+        var currentLabel = label_fors[index];
+        var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+        var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
+        var labelSelector = document.getElementById(labelSelectorID);
+        var clipSelector = document.getElementById(clipSelectorID);
+        labelSelector.style.backgroundColor = "#5cb85c";
+
+        currentClipLabel = index;
+
+
+      };
+
+      function setLabels(){
+        for(var k = 0; k < 6; k++){
+          var i = k;
+          var currentLabel = label_fors[k];
+          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
+          var labelSelector = document.getElementById(labelSelectorID);
+          var clipSelector = document.getElementById(clipSelectorID);
+          labelSelector.style.backgroundColor = "#8fbd8f";
+          //$('#valenceSlider')
+          console.log(labelSelectorID);
+          function concreteIndex(index){
+            return function(){
+              setPrimaryLabel(index);
+            }
+          }
+          $('#' + labelSelectorID).on("click", concreteIndex(i));
+        }
+        setPrimaryLabel(0);
+      }
+      setLabels();
+
+            // highlight selected category
+      $('#arousalSlider').slider({
+        });
+      var inputs = $("#Inputs input:radio");
+      inputs.change(function(){
+        inputs.parent().removeClass("btn-success");
+        inputs.parent().addClass("btn-default");
+        if($(this).is(":checked")){
+          $(this).parent().removeClass("btn-default");
+          $(this).parent().addClass("btn-success");
+        }else{
+          $(this).parent().removeClass("btn-success");
+          $(this).parent().addClass("btn-default");
+        }
+      });
+      // end highlight
+      function changeSliderVal(slideEvt,sliderVal){
+        if(slideEvt.value <= 20){ 
+          $(sliderVal).text("Strong Negative");
+        }
+        else if(slideEvt.value <= 40){ 
+          $(sliderVal).text("Medium Negative");
+        }
+        else if(slideEvt.value <= 60){ 
+          $(sliderVal).text("Neutral");
+        }
+        else if(slideEvt.value <= 80){ 
+          $(sliderVal).text("Medium Positive");
+        }
+        else{ 
+          $(sliderVal).text("Strong Positive");
+        }
+
+      };
+
+      function changeSliderAro(slideEvt,sliderVal){
+        if(slideEvt.value <= 20){ 
+          $(sliderVal).text("Low");
+        }
+        else if(slideEvt.value <= 40){ 
+          $(sliderVal).text("Medium Low");
+        }
+        else if(slideEvt.value <= 60){ 
+          $(sliderVal).text("Neutral");
+        }
+        else if(slideEvt.value <= 80){ 
+          $(sliderVal).text("Medium High");
+        }
+        else{ 
+          $(sliderVal).text("High");
+        }
+
+      };
+
+    // Instructions expand/collapse
+    var content = $('#instructionBody');
+    var trigger = $('#collapseTrigger');
+    content.hide();
+    $('.collapse-text').text('(Click to expand)');
+    trigger.click(function(){
+      content.toggle();
+      var isVisible = content.is(':visible');
+      if(isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+      }else{
+        $('.collapse-text').text('(Click to expand)');
+      }
+    });
+
+
+    $('#arousalSlider').slider();
+    $('#arousalSlider').on("slide", function(slideEvt){
+      changeSliderAro(slideEvt,"#arousalSliderVal");
+    })
+    $('#valenceSlider').slider();
+    $('#valenceSlider').on("slide", function(slideEvt){
+      changeSliderVal(slideEvt,"#valenceSliderVal");
+    })
+    
+
+  });
+
+    $(document).ready(function() {
+      $('.label').click(function() {
+        var element = $(this).get()[0];
+        var classes = element.className.split(' ');
+        var label_for = "";
+        for (var c in classes) {
+          if (label_fors.indexOf(classes[c]) >= 0) {
+            label_for = classes[c];
+          }
+        }
+        $("." + label_for).removeClass('selected');
+        $(this).addClass('selected');
+        if ($(this).hasClass('none')) {
+          document.getElementById(label_for).setAttribute('value', 0);
+        }
+        else if ($(this).hasClass('weak')) {
+          document.getElementById(label_for).setAttribute('value', 1);
+        }
+        else if ($(this).hasClass('medium')) {
+          document.getElementById(label_for).setAttribute('value', 2);
+        }
+        else if ($(this).hasClass('strong')) {
+          document.getElementById(label_for).setAttribute('value', 3);
+        }
+        else if ($(this).hasClass('extreme')) {
+          document.getElementById(label_for).setAttribute('value', 4);
+        }
+      });
+    });
+    $(document).keypress(function(e) {
+      if (e.which == 13) {
+        $("#trigger").click();
+      }
+    });
+    function resize_iframe(){
+      $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
+      $('.slider').css("width", ($('.myIframe').height()) * (16/9)- 20 + "px");
+    }
+    window.onresize = resize_iframe;
+    part1_buttons = ["happiness","sadness","anger","disgust","surprise",
+    "persuasion", "engagement","humor","confidence","gestures"];
+    function finished_part1(){
+      finished = true;
+      for(button_idx in part1_buttons){
+        finished = finished  && (document.getElementById(part1_buttons
+          [button_idx]).value != -1);
+      }
+
+      if(finished || testingmode){
+          $('#part2').show();
+          $('#warning').hide();
+      }
+      else{
+        $('#warning').text("You Must Answer all Questions in Part 1")
+        $('#warning').show();
+      }
+      return finished;
+    }
+
+    part2_buttons = ["ethos","pathos", "logos", "genuine", "profesional", "credible", "intro", "setup", "trustable", "human"];
+    function finished_part2(){
+      finished = true;
+      for(button_idx in part2_buttons){
+        finished = finished  && (document.getElementById(part2_buttons
+          [button_idx]).value != -1);
+      }
+
+      if(finished || testingmode){
+          $('#part3').show();
+          $('#warning').hide();
+      }
+      else{
+        $('#warning').text("You Must Answer all Questions in Part 2")
+        $('#warning').show();
+      }
+      return finished;
+    }
+
+
+    function validCharCount(val){
+      var length = val.value.length;
+      $('#'.concat((val.id).toLowerCase())).val(val.value);
+      console.log($('#'.concat((val.id).toLowerCase())).val());
+      if(length < 100){
+        $('#comment'.concat((val.id).concat('Warning'))).text("Under 100 \
+         characters used");
+        $('#comment'.concat((val.id).concat('Warning'))).show();
+      }
+      else if(length > 300){
+        $('#comment'.concat((val.id).concat('Warning'))).text("Over 300 characters \
+         used");
+        $('#comment'.concat((val.id).concat('Warning'))).show();
+      }
+      else{
+        $('#comment'.concat((val.id).concat('Warning'))).hide();
+      }
+    }
+
+    $(function () {
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            if(finished_part1()){
+              $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            else{
+              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
+            }
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+
+    $(function () {
+    $('.button-checkbox2').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            if(finished_part2()){
+              $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            else{
+              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
+            }
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+  $('#selectClip').hide();
+
+  $('#warning').hide();
+  $('#part2').hide();
+  $('#part3').hide();
+  $('#commentAdviceWarning').hide();
+  $('#commentSpeechWarning').hide();
+  $('#commentFeelWarning').hide();
+  $('#commentSpeakerWarning').hide();
+
+  </script>
+
+<!-- Close internal javascript -->
