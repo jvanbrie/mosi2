@@ -119,7 +119,7 @@
 
   </div>
 
-  <div class="col-md-3">
+  <div class="col-lg-6" style="width:50%;">
    <ul class="nav nav-tabs">
       <li class="active"><a href="#emotion" data-toggle="tab">Sentiment</a></li>
       <li><a href="#persuasion" data-toggle="tab">Persuasion</a></li>
@@ -132,26 +132,39 @@
 
     <div class="input-group">
       <p><b>Happiness</b></p>
+      <div class="col-lg-4">
         <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentHappiness" class="btn btn-default btn-sm">Segment Now</button>
         <div class="btn-group">
-          <button type="button" id="selectHappinessClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Clip  
           <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Clip 1</a>
-            </li>
+          <ul class="dropdown-menu" id="selectHappinessClip">
+            
           </ul>
         </div>
         <br>
-        <span class="happiness label none" value="0"><font color="black">None</font></span> 
+        <span class="happiness label none"><font color="black">None</font></span> 
         <span class="happiness label weak"><font color="black">Weak</font></span> 
         <span class="happiness label medium"><font color="black">Moderate</font></span> 
         <span class="happiness label strong"><font color="black">Strong</font></span> 
         <span class="happiness label extreme"><font color="black">Extreme</font></span>
 
-      <input id="happiness" name="happiness" type="hidden" value="-1" />
+      <input id="happiness" name="happiness" type="hidden" value="" />
       <input id="happinessSliders" name="happinessSliders" type="hidden" value="" />
+      </div>
+      <div class="col-lg-6">
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of happiness you selected (150-300
+          characters):</label>
+          <label id="commentHappinessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="happinessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="happinessText" name="happinessText" type="hidden" required="" value=""/>
+      </div>
 
     
     </div>
@@ -161,13 +174,12 @@
       <p><b>Sadness</b></p>
       <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSadness" class="btn btn-default btn-sm">Segment Now</button>
         <div class="btn-group">
-          <button type="button" id="selectSadnessClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Clip  
           <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Clip 1</a>
-            </li>
+          <ul class="dropdown-menu" id="selectSadnessClip">
+            
           </ul>
         </div>
         <br>
@@ -187,13 +199,12 @@
       <p><b>Fear</b></p>
       <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFear" class="btn btn-default btn-sm">Segment Now</button>
         <div class="btn-group">
-          <button type="button" id="selectFearClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Clip  
           <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Clip 1</a>
-            </li>
+          <ul class="dropdown-menu" id="selectFearClip">
+            
           </ul>
         </div>
         <br>
@@ -213,13 +224,12 @@
       <p><b>Anger</b></p>
       <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAnger" class="btn btn-default btn-sm">Segment Now</button>
         <div class="btn-group">
-          <button type="button" id="selectAngerClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Clip  
           <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Clip 1</a>
-            </li>
+          <ul class="dropdown-menu" id="selectAngerClip">
+            
           </ul>
         </div>
         <br>
@@ -239,13 +249,12 @@
       <p><b>Disgust</b></p>
       <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentDisgust" class="btn btn-default btn-sm">Segment Now</button>
         <div class="btn-group">
-          <button type="button" id="selectDisgustClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Clip  
           <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Clip 1</a>
-            </li>
+          <ul class="dropdown-menu" id="selectDisgustClip">
+            
           </ul>
         </div>
         <br>
@@ -265,13 +274,12 @@
       <p><b>Surprise</b></p>
       <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSurprise" class="btn btn-default btn-sm">Segment Now</button>
         <div class="btn-group">
-          <button type="button" id="selectSurpriseClip" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Clip  
           <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Clip 1</a>
-            </li>
+          <ul class="dropdown-menu" id="selectSurpriseClip">
+            
           </ul>
         </div>
         <br>
@@ -402,7 +410,6 @@
 
   //TODO: remove random comments below
   // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
-  var clipCount = 0;
   var selectorMin = 0;
   var selectorMax = 0;
 
@@ -416,22 +423,28 @@
   var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var currentClipLabel = 0;
 
-  function add(id,min,max) {
+  function add(identity,min,max,index) {
+    //selectHappinessClip
   //Create an input type dynamically.
+    var localLabel = label_fors[identity]
+    var id = localLabel + "Slider" + index
     var element = document.createElement("input");
     element.id = id;
-    var sliderTextID = label_fors[currentClipLabel] + "Sliders";
+    var sliderTextID = localLabel + "Sliders";
 
-    document.getElementById(sliderTextID).value += (min + '-' + max + ',');
+    //selectorOption.text = "Clip " + (labelClipCounts[currentClipLabel] + 1);
 
-    function concreteIndex(index){
+    function concreteIndex(concInd){
       return function(value){
         //This checks if we truly have the two value we expect to have
         if(value[1] != null){
           var temp = (document.getElementById(sliderTextID).value).split(",");
-          temp[index] = value[0] + '-' + value[1]; 
+          if(temp[concInd] != ""){
+            temp[concInd] = value[0] + '-' + value[1]; 
+          }
           temp.join(",");
           document.getElementById(sliderTextID).value = temp;
+          console.log(document.getElementById(sliderTextID).value);
         }
         var minutes0 = Math.floor(value[0] / 60);
         var seconds0 = value[0] - (minutes0 * 60);
@@ -443,24 +456,34 @@
       }
     }
 
-
-
     var segHead = document.getElementById("segmentHeader");
     //Append the element in page (in span).  
     segHead.appendChild(element);
 
     $('#' + id).css("width", ($('#player').width()) - 20 + "px");
+    //TODO: can't use currentClipLabel below, must pass in the actual index because you aren't always creating a new slider
     $('#' + id).slider({
           max : player.getDuration(),
           value : [min,max],
-          formatter: concreteIndex(labelClipCounts[currentClipLabel]),
+          formatter: concreteIndex(index),
           id : "selectClip"
         });
 
   }
   document.getElementById("createNewSegment").onclick = function() {
-    add(label_fors[currentClipLabel] + "Slider" + labelClipCounts[currentClipLabel],selectorMin,selectorMax);
+    var localLabel = label_fors[currentClipLabel]
+    add(currentClipLabel,selectorMin,selectorMax,labelClipCounts[currentClipLabel]);
+    var localLabel = label_fors[currentClipLabel]
+    var sliderTextID = localLabel + "Sliders";
+    var temp = (document.getElementById(sliderTextID).value).split(",")
+    temp[labelClipCounts[currentClipLabel]] = selectorMin + '-' + selectorMax;
+    temp.join(",");
+    document.getElementById(sliderTextID).value = temp;
+
+    var dropSelectorID = "select" + localLabel.charAt(0).toUpperCase() + localLabel.slice(1) + "Clip";
+    $("#" + dropSelectorID).append("<li id='dropOpt" + localLabel + labelClipCounts[currentClipLabel] + "'><a href='#'>Clip "+ labelClipCounts[currentClipLabel] +"</a></li>")
     labelClipCounts[currentClipLabel]++;
+
   };
 
   function remove(id){
@@ -468,11 +491,25 @@
     var child = document.getElementById(id);
     $("#" + id).slider('destroy');
     parent.removeChild(child);
+
   }
+
   document.getElementById("removeLastSegment").onclick = function() {
     if(labelClipCounts[currentClipLabel] >= 1){
       remove(label_fors[currentClipLabel] + "Slider" + (labelClipCounts[currentClipLabel]-1));
       labelClipCounts[currentClipLabel]--;
+
+      var localLabel = label_fors[currentClipLabel]
+      var sliderTextID = localLabel + "Sliders";
+      var temp = (document.getElementById(sliderTextID).value).split(",")
+      temp.splice(labelClipCounts[currentClipLabel],1);
+      temp.join(",");
+      document.getElementById(sliderTextID).value = temp;
+
+      var dropSelectorID = "select" + localLabel.charAt(0).toUpperCase() + localLabel.slice(1) + "Clip";
+      parent = document.getElementById(dropSelectorID);
+      child = document.getElementById("dropOpt" + localLabel + labelClipCounts[currentClipLabel]);
+      parent.removeChild(child);
     }
   };
 
@@ -528,18 +565,22 @@
 
 
       function setPrimaryLabel(index){
+        if(index == currentClipLabel){
+          return;
+        }
+        console.log("ONE SET");
+        console.log("Value at start of current: " + document.getElementById(label_fors[index] + "Sliders").value);
+        console.log("Value at start of prev: " + document.getElementById(label_fors[currentClipLabel] + "Sliders").value);
+        //set colors to greyed out
         for(j = 0; j < 6; j++){
           var currentLabel = label_fors[j];
           var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
           var sliderBaseID = currentLabel + "Slider";
-          //This loop runs once for each slider for the given label
-
           var labelSelector = document.getElementById(labelSelectorID);
-          var clipSelector = document.getElementById(clipSelectorID);
           labelSelector.style.backgroundColor = "#8fbd8f";
           //$('#valenceSlider')
         }
+
         var currentLabel = label_fors[currentClipLabel];
         var sliderBaseID = currentLabel + "Slider";
         for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
@@ -547,24 +588,29 @@
           remove(currentLabel + "Slider" + (k.toString()));
         }
 
-        var currentLabel = label_fors[index];
+        
+        currentLabel = label_fors[index];
         var sliderTextID = currentLabel + "Sliders";
-        var temp = (document.getElementById(sliderTextID).value).split(",");
-        var sliderBaseID = currentLabel + "Slider";
+        var temp = (document.getElementById(sliderTextID).value);
+        temp = temp.split(",");
+        sliderBaseID = currentLabel + "Slider";
+        console.log(currentLabel);
+        console.log(temp);
         for(k = 0; k < labelClipCounts[index]; k++){
           var temp2 = (temp[k]).split("-")
           sliderID = sliderBaseID + k.toString();
-          add(currentLabel + "Slider" + (k.toString()),parseInt(temp2[0]),parseInt(temp2[1]));
+          add(index,parseInt(temp2[0]),parseInt(temp2[1]),k);
         }
 
-        var currentLabel = label_fors[index];
         var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-        var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
         var labelSelector = document.getElementById(labelSelectorID);
-        var clipSelector = document.getElementById(clipSelectorID);
         labelSelector.style.backgroundColor = "#5cb85c";
 
+        console.log("Value at end of current: " + document.getElementById(label_fors[index] + "Sliders").value);
+        console.log("Value at end of prev: " + document.getElementById(label_fors[currentClipLabel] + "Sliders").value);
+
         currentClipLabel = index;
+
 
 
       };
@@ -587,6 +633,10 @@
           }
           $('#' + labelSelectorID).on("click", concreteIndex(i));
         }
+        var currentLabel = label_fors[currentClipLabel];
+        var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+        var labelSelector = document.getElementById(labelSelectorID);
+        labelSelector.style.backgroundColor = "#5cb85c";
         setPrimaryLabel(0);
       }
       setLabels();
@@ -751,23 +801,20 @@
       return finished;
     }
 
-
     function validCharCount(val){
       var length = val.value.length;
-      $('#'.concat((val.id).toLowerCase())).val(val.value);
-      console.log($('#'.concat((val.id).toLowerCase())).val());
-      if(length < 100){
-        $('#comment'.concat((val.id).concat('Warning'))).text("Under 100 \
-         characters used");
-        $('#comment'.concat((val.id).concat('Warning'))).show();
+      $('#' + (val.id).substring(0,(val.id).length - 4)).val(val.value);
+      console.log($('#' + (val.id).substring(0,(val.id).length - 4)).val());
+      if(length < 150){
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Under 150 characters used");
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
       }
       else if(length > 300){
-        $('#comment'.concat((val.id).concat('Warning'))).text("Over 300 characters \
-         used");
-        $('#comment'.concat((val.id).concat('Warning'))).show();
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Over 300 characters used");
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
       }
       else{
-        $('#comment'.concat((val.id).concat('Warning'))).hide();
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').hide();
       }
     }
 
@@ -917,7 +964,7 @@
   $('#warning').hide();
   $('#part2').hide();
   $('#part3').hide();
-  $('#commentAdviceWarning').hide();
+  $('#commentHappinessWarning').hide();
   $('#commentSpeechWarning').hide();
   $('#commentFeelWarning').hide();
   $('#commentSpeakerWarning').hide();
