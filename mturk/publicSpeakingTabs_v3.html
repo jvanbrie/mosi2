@@ -1,0 +1,1224 @@
+<!-- HIT template: Sentiment-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
+<!DOCTYPE html>
+<html lang="en">
+
+<style type="text/css">
+.label {
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  color: black;
+}
+.selected {
+  background-color: #fff59d !important;
+}
+.none {
+  background-color: white;
+}
+.weak {
+  background-color: #dfdfdf;
+}
+.medium {
+  background-color: #c1c1c1;
+}
+.strong {
+  background-color: #8d8d8d;
+}
+.extreme {
+  background-color: #6f6f6f;
+}
+#selectClip {
+    margin-left: 10px !important;
+}
+#selectClip .slider-selection {
+  background: yellow;
+}
+</style>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOSI2 Annotator</title>
+
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" rel="stylesheet" /><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4=" crossorigin="anonymous"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+
+<section class="container" id="Sentiment"><!-- Instructions (collapsible) -->
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <div class="panel panel-primary"><!-- WARNING: the ids "collapseTrigger"
+      and "instructionBody" are being used to enable expand/collapse feature
+      --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Video Analysis Instructions</strong> 
+      <span class="collapse-text">(Click to expand)</span> </a>
+        <div class="panel-body" id="instructionBody"><strong>You must
+        answer all questins in the first part. Then click continue and
+        fill out all questions that apply in the second part. This
+        table describes some of the terms used: </strong>
+          <table class="table table-condensed table-striped table-responsive">
+            <tbody>
+            </tbody>
+            <colgroup>
+            <col class="col-xs-2 col-md-2" />
+            <col class="col-xs-10 col-md-10" />
+          </colgroup>
+          <!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
+          <tbody>
+            <tr>
+              <th>Term</th>
+              <th>Definition</th>
+            </tr>
+            <tr>
+              <td>Arousal</td>
+              <td>The level of the emotional response caused by the speaker.</td>
+            </tr>
+            <tr>
+              <td>Valence</td>
+              <td>The direction of the emotional response caused by the speaker (positive or negative)</td>
+            </tr>
+            <tr>
+              <td>Ethos</td>
+              <td>Persuasion based on the credibility or character of the speaker</td>
+            </tr>
+            <tr>
+              <td>Pathos</td>
+              <td>Persuasion based appealing to emotion</td>
+            </tr>
+            <tr>
+              <td>Logos</td>
+              <td>Persuasion based on a logical argument</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- End instructions --><!-- Categorization Layout -->
+
+<h2 style="color: red; margin: 2%;" id="warning">You Must Answer all Questions
+ in Part 1</h2>
+
+<!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
+<div class="row" style="margin:1%;">
+  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="background-color: white; width:50%; height: auto; display:inline-block; float:left;">
+    <div class="myIframe" frameborder="0" id="player" scrolling="no"  width="100%"></div>
+
+    <div id="slider-range" style="margin: 10px;""></div>
+    <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" class="btn btn-default" id="createNewSegment" disabled>Create New Segment</button>
+    <button class="btn btn-danger" id="removeLastSegment">Remove Last Segment</button>
+    <div>
+      <h4>Segments:</h4>
+      <div id="segmentHeader"> </div>
+
+      
+
+    </div>
+
+  </div>
+
+  <div class="col-lg-6" style="width:50%;">
+   <ul class="nav nav-tabs">
+      <li class="active"><a href="#emotion" data-toggle="tab">Sentiment</a></li>
+      <li><a href="#persuasion" data-toggle="tab">Persuasion</a></li>
+      <li><a href="#structure" data-toggle="tab">Structure</a></li>
+
+    </ul>
+    <div class="tab-content">
+    <div id="emotion" class="tab-pane active">
+    <div class="col-lg-4" style="width: 50%;">
+
+    <div class="input-group">
+      <h4>Happiness</h4>
+        <span class="happiness label none"><font color="black">None</font></span> 
+        <span class="happiness label weak"><font color="black">Weak</font></span> 
+        <span class="happiness label medium"><font color="black">Moderate</font></span> 
+        <span class="happiness label strong"><font color="black">Strong</font></span> 
+        <span class="happiness label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentHappiness" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="happiness" name="happiness" type="hidden" value="" />
+      <input id="happinessSliders" name="happinessSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of happiness you selected (150-300
+          characters):</label>
+          <label id="commentHappinessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="happinessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="happinessText" name="happinessText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+
+    <div class="input-group">
+        <h4>Sadness</h4>
+        <span class="sadness label none"><font color="black">None</font></span> 
+        <span class="sadness label weak"><font color="black">Weak</font></span> 
+        <span class="sadness label medium"><font color="black">Moderate</font></span> 
+        <span class="sadness label strong"><font color="black">Strong</font></span> 
+        <span class="sadness label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSadness" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="sadness" name="sadness" type="hidden" value="" />
+      <input id="sadnessSliders" name="sadnessSliders" type="hidden" value="" />
+
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of sadness you selected (150-300
+          characters):</label>
+          <label id="commentSadnessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="sadnessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="sadnessText" name="sadnessText" type="hidden" required="" value=""/>
+    
+    </div>
+
+ <div class="input-group">
+      <h4>Fear</h4>
+        <span class="fear label none"><font color="black">None</font></span> 
+        <span class="fear label weak"><font color="black">Weak</font></span> 
+        <span class="fear label medium"><font color="black">Moderate</font></span> 
+        <span class="fear label strong"><font color="black">Strong</font></span> 
+        <span class="fear label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFear" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="fear" name="fear" type="hidden" value="" />
+      <input id="fearSliders" name="fearSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of fear you selected (150-300
+          characters):</label>
+          <label id="commentFearWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="fearTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="fearText" name="fearText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    </div>
+
+  <div class="col-lg-6" style="width: 50%">
+    <div class="input-group">
+      <h4>Anger</h4>
+        <span class="anger label none"><font color="black">None</font></span> 
+        <span class="anger label weak"><font color="black">Weak</font></span> 
+        <span class="anger label medium"><font color="black">Moderate</font></span> 
+        <span class="anger label strong"><font color="black">Strong</font></span> 
+        <span class="anger label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAnger" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="anger" name="anger" type="hidden" value="" />
+      <input id="angerSliders" name="angerSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of anger you selected (150-300
+          characters):</label>
+          <label id="commentAngerWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="angerTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="angerText" name="angerText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Disgust</h4>
+        <span class="disgust label none"><font color="black">None</font></span> 
+        <span class="disgust label weak"><font color="black">Weak</font></span> 
+        <span class="disgust label medium"><font color="black">Moderate</font></span> 
+        <span class="disgust label strong"><font color="black">Strong</font></span> 
+        <span class="disgust label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentDisgust" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="disgust" name="disgust" type="hidden" value="" />
+      <input id="disgustSliders" name="disgustSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of disgust you selected (150-300
+          characters):</label>
+          <label id="commentDisgustWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="disgustTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="disgustText" name="disgustText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    <div class="input-group">
+      <h4>Surprise</h4>
+        <span class="surprise label none"><font color="black">None</font></span> 
+        <span class="surprise label weak"><font color="black">Weak</font></span> 
+        <span class="surprise label medium"><font color="black">Moderate</font></span> 
+        <span class="surprise label strong"><font color="black">Strong</font></span> 
+        <span class="surprise label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSurprise" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="surprise" name="surprise" type="hidden" value="" />
+      <input id="surpriseSliders" name="surpriseSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of surprise you selected (150-300
+          characters):</label>
+          <label id="commentSurpriseWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="surpriseTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="surpriseText" name="surpriseText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+     <div class="input-group" style="width: 50%">
+      <div><label>Arousal: 
+      <span id="arousalSliderVal"><font color="black">Neutral</font></span></label></div>
+      <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="arousalSlider" name="arousal" type="text" /></div>
+
+      <div class="input-group" style="width: 50%">
+        <div><label>Valence: 
+        <span id="valenceSliderVal"><font color="black">Neutral</font></span></label></div>
+        <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="valenceSlider" name="valence" type="text" />
+      </div>
+    </div>
+    </div>
+
+
+
+  <div id="persuasion" class="tab-pane">
+
+    <div class="col-lg-4" style="width: 50%;">
+    <div class="input-group">
+        <h4>Persuasion</h4>
+        <span class="persuasion label none"><font color="black">None</font></span> 
+        <span class="persuasion label weak"><font color="black">Weak</font></span> 
+        <span class="persuasion label medium"><font color="black">Moderate</font></span> 
+        <span class="persuasion label strong"><font color="black">Strong</font></span> 
+        <span class="persuasion label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPersuasion" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="persuasion" name="persuasion" type="hidden" value="" />
+      <input id="persuasionSliders" name="persuasionSliders" type="hidden" value="" />
+
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of persuasion you selected (150-300
+          characters):</label>
+          <label id="commentPersuasionWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="persuasionTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="persuasionText" name="persuasionText" type="hidden" required="" value=""/>
+    
+    </div>
+
+    <div class="input-group">
+        <h4>Logos</h4>
+        <span class="logos label none"><font color="black">None</font></span> 
+        <span class="logos label weak"><font color="black">Weak</font></span> 
+        <span class="logos label medium"><font color="black">Moderate</font></span> 
+        <span class="logos label strong"><font color="black">Strong</font></span> 
+        <span class="logos label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentLogos" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="logos" name="logos" type="hidden" value="" />
+      <input id="logosSliders" name="logosSliders" type="hidden" value="" />
+
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of logos you selected (150-300
+          characters):</label>
+          <label id="commentLogosWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="logosTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="logosText" name="logosText" type="hidden" required="" value=""/>
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Pathos</h4>
+        <span class="pathos label none"><font color="black">None</font></span> 
+        <span class="pathos label weak"><font color="black">Weak</font></span> 
+        <span class="pathos label medium"><font color="black">Moderate</font></span> 
+        <span class="pathos label strong"><font color="black">Strong</font></span> 
+        <span class="pathos label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPathos" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="pathos" name="pathos" type="hidden" value="" />
+      <input id="pathosSliders" name="pathosSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of pathos you selected (150-300
+          characters):</label>
+          <label id="commentPathosWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="pathosTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="pathosText" name="pathosText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    </div>
+    <div class="col-lg-4" style="width: 50%;">
+
+    <div class="input-group">
+      <h4>Ethos</h4>
+        <span class="ethos label none"><font color="black">None</font></span> 
+        <span class="ethos label weak"><font color="black">Weak</font></span> 
+        <span class="ethos label medium"><font color="black">Moderate</font></span> 
+        <span class="ethos label strong"><font color="black">Strong</font></span> 
+        <span class="ethos label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentEthos" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="ethos" name="ethos" type="hidden" value="" />
+      <input id="ethosSliders" name="ethosSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of ethos you selected (150-300
+          characters):</label>
+          <label id="commentEthosWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="ethosTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="ethosText" name="ethosText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Aggressiveness</h4>
+        <span class="aggressiveness label none"><font color="black">None</font></span> 
+        <span class="aggressiveness label weak"><font color="black">Weak</font></span> 
+        <span class="aggressiveness label medium"><font color="black">Moderate</font></span> 
+        <span class="aggressiveness label strong"><font color="black">Strong</font></span> 
+        <span class="aggressiveness label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAggressiveness" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="aggressiveness" name="aggressiveness" type="hidden" value="" />
+      <input id="aggressivenessSliders" name="aggressivenessSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of aggressiveness you selected (150-300
+          characters):</label>
+          <label id="commentAggressivenessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="aggressivenessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="aggressivenessText" name="aggressivenessText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Motivating</h4>
+        <span class="motivating label none"><font color="black">None</font></span> 
+        <span class="motivating label weak"><font color="black">Weak</font></span> 
+        <span class="motivating label medium"><font color="black">Moderate</font></span> 
+        <span class="motivating label strong"><font color="black">Strong</font></span> 
+        <span class="motivating label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentMotivating" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="motivating" name="motivating" type="hidden" value="" />
+      <input id="motivatingSliders" name="motivatingSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of motivating you selected (150-300
+          characters):</label>
+          <label id="commentMotivatingWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="motivatingTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="motivatingText" name="motivatingText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    </div>
+    </div>
+    <div id="structure" class="tab-pane">
+
+    <div class="col-lg-4" style="width: 50%;">
+    <div class="input-group">
+        <h4>Focus</h4>
+        <span class="focus label none"><font color="black">None</font></span> 
+        <span class="focus label weak"><font color="black">Weak</font></span> 
+        <span class="focus label medium"><font color="black">Moderate</font></span> 
+        <span class="focus label strong"><font color="black">Strong</font></span> 
+        <span class="focus label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFocus" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="focus" name="focus" type="hidden" value="" />
+      <input id="focusSliders" name="focusSliders" type="hidden" value="" />
+
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of focus you selected (150-300
+          characters):</label>
+          <label id="commentFocusWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="focusTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="focusText" name="focusText" type="hidden" required="" value=""/>
+    
+    </div>
+
+    <div class="input-group">
+        <h4>Well Written Script</h4>
+        <span class="script label none"><font color="black">None</font></span> 
+        <span class="script label weak"><font color="black">Weak</font></span> 
+        <span class="script label medium"><font color="black">Moderate</font></span> 
+        <span class="script label strong"><font color="black">Strong</font></span> 
+        <span class="script label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentScript" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="script" name="script" type="hidden" value="" />
+      <input id="scriptSliders" name="scriptSliders" type="hidden" value="" />
+
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of script you selected (150-300
+          characters):</label>
+          <label id="commentScriptWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="scriptTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="scriptText" name="scriptText" type="hidden" required="" value=""/>
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Ice Breaker</h4>
+        <span class="ice label none"><font color="black">None</font></span> 
+        <span class="ice label weak"><font color="black">Weak</font></span> 
+        <span class="ice label medium"><font color="black">Moderate</font></span> 
+        <span class="ice label strong"><font color="black">Strong</font></span> 
+        <span class="ice label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentIce" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="ice" name="ice" type="hidden" value="" />
+      <input id="iceSliders" name="iceSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of ice you selected (150-300
+          characters):</label>
+          <label id="commentIceWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="iceTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="iceText" name="iceText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    </div>
+    <div class="col-lg-4" style="width: 50%;">
+
+    <div class="input-group">
+      <h4>Quality of outro/signoff</h4>
+        <span class="signoff label none"><font color="black">None</font></span> 
+        <span class="signoff label weak"><font color="black">Weak</font></span> 
+        <span class="signoff label medium"><font color="black">Moderate</font></span> 
+        <span class="signoff label strong"><font color="black">Strong</font></span> 
+        <span class="signoff label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSignoff" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="signoff" name="signoff" type="hidden" value="" />
+      <input id="signoffSliders" name="signoffSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of signoff you selected (150-300
+          characters):</label>
+          <label id="commentSignoffWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="signoffTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="signoffText" name="signoffText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Meaningful Gestures</h4>
+        <span class="gestures label none"><font color="black">None</font></span> 
+        <span class="gestures label weak"><font color="black">Weak</font></span> 
+        <span class="gestures label medium"><font color="black">Moderate</font></span> 
+        <span class="gestures label strong"><font color="black">Strong</font></span> 
+        <span class="gestures label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentGestures" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="gestures" name="gestures" type="hidden" value="" />
+      <input id="gesturesSliders" name="gesturesSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of gestures you selected (150-300
+          characters):</label>
+          <label id="commentGesturesWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="gesturesTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="gesturesText" name="gesturesText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group">
+      <h4>Posture</h4>
+        <span class="posture label none"><font color="black">None</font></span> 
+        <span class="posture label weak"><font color="black">Weak</font></span> 
+        <span class="posture label medium"><font color="black">Moderate</font></span> 
+        <span class="posture label strong"><font color="black">Strong</font></span> 
+        <span class="posture label extreme"><font color="black">Extreme</font></span>
+        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPosture" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="posture" name="posture" type="hidden" value="" />
+      <input id="postureSliders" name="postureSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of posture you selected (150-300
+          characters):</label>
+          <label id="commentPostureWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="postureTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="postureText" name="postureText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    </div>
+
+     </div>
+     </div>
+    <!-- End Categorization Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" /><!-- Open internal style sheet -->
+    <style type="text/css">
+    #collapseTrigger{
+      color:#fff;
+      display: block;
+      text-decoration: none;
+    }
+    #submitButton{
+      white-space: normal;
+    }
+    #instructionBody table{
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    #instructionBody table caption{
+      text-align: left;
+      padding: 0 0 5px 0;
+    }
+    #Inputs{
+      display: block;
+      margin-top: 10px;
+    }
+    .content{
+      margin-bottom: 15px;
+    }
+    .radio:first-of-type{
+      margin-top: -5px;
+    }
+  </style>
+<!-- Close internal style sheet --><!-- External JS references -->
+<!-- Open internal javascript -->
+<script type="text/javascript">
+  var testingmode = true;
+
+  //TODO: remove random comments below
+  // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
+  var selectorMin = 0;
+  var selectorMax = 10;
+
+  var label_fors = [
+    "happiness", "sadness", "fear", "anger", "disgust", "surprise",
+    "persuasion", "logos", "pathos", "ethos", "aggressiveness", "motivating",
+    "focus", "script", "ice", "signoff", "gestures", "posture"
+    ];
+
+  var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  var currentClipLabel = -1;
+
+  function add(identity,min,max,index) {
+    //selectHappinessClip
+  //Create an input type dynamically.
+    var localLabel = label_fors[identity]
+    var id = localLabel + "Slider" + index
+    var element = document.createElement("div");
+    element.id = id;
+    element.style = "margin: 10px;";
+    var sliderTextID = localLabel + "Sliders";
+
+    //selectorOption.text = "Clip " + (labelClipCounts[currentClipLabel] + 1);
+
+    function concreteIndex(concInd){
+      return function(event, ui){
+        //This checks if we truly have the two value we expect to have
+          var temp = (document.getElementById(sliderTextID).value).split(",");
+          var oldVal1 = ((temp[concInd]).split("-"))[0]
+          if(oldVal1 == ui.values[0]){
+            player.seekTo(ui.values[1]);
+          }
+          else{
+            player.seekTo(ui.values[0]);
+          }
+          if(temp[concInd] != ""){
+            temp[concInd] = ui.values[0] + '-' + ui.values[1]; 
+          }
+          temp.join(",");
+          document.getElementById(sliderTextID).value = temp;
+          console.log(document.getElementById(sliderTextID).value);
+        
+      }
+    }
+
+    var segHead = document.getElementById("segmentHeader");
+    //Append the element in page (in span).  
+    segHead.appendChild(element);
+
+    //$('#' + id).css("width", ($('#player').width()) - 20 + "px");
+    //TODO: can't use currentClipLabel below, must pass in the actual index because you aren't always creating a new slider
+
+        $( "#" + id ).slider({
+          range: true,
+          max : player.getDuration(),
+          values: [ min, max],
+          slide: concreteIndex(index)
+          })
+      
+
+  }
+  document.getElementById("createNewSegment").onclick = function() {
+    var localLabel = label_fors[currentClipLabel]
+    add(currentClipLabel,selectorMin,selectorMax,labelClipCounts[currentClipLabel]);
+    var localLabel = label_fors[currentClipLabel]
+    var sliderTextID = localLabel + "Sliders";
+    var temp = (document.getElementById(sliderTextID).value).split(",")
+    temp[labelClipCounts[currentClipLabel]] = selectorMin + '-' + selectorMax;
+    temp.join(",");
+    document.getElementById(sliderTextID).value = temp;
+
+    var dropSelectorID = "select" + localLabel.charAt(0).toUpperCase() + localLabel.slice(1) + "Clip";
+    $("#" + dropSelectorID).append("<li id='dropOpt" + localLabel + labelClipCounts[currentClipLabel] + "'><a href='#'>Clip "+ labelClipCounts[currentClipLabel] +"</a></li>")
+    labelClipCounts[currentClipLabel]++;
+
+  };
+
+
+
+  function remove(id){
+    var parent = document.getElementById("segmentHeader");
+    var child = document.getElementById(id);
+    $("#" + id).slider('destroy');
+    parent.removeChild(child);
+
+  }
+
+  document.getElementById("removeLastSegment").onclick = function() {
+    if(labelClipCounts[currentClipLabel] >= 1){
+      remove(label_fors[currentClipLabel] + "Slider" + (labelClipCounts[currentClipLabel]-1));
+      labelClipCounts[currentClipLabel]--;
+
+      var localLabel = label_fors[currentClipLabel]
+      var sliderTextID = localLabel + "Sliders";
+      var temp = (document.getElementById(sliderTextID).value).split(",")
+      temp.splice(labelClipCounts[currentClipLabel],1);
+      temp.join(",");
+      document.getElementById(sliderTextID).value = temp;
+
+      var dropSelectorID = "select" + localLabel.charAt(0).toUpperCase() + localLabel.slice(1) + "Clip";
+      parent = document.getElementById(dropSelectorID);
+      child = document.getElementById("dropOpt" + localLabel + labelClipCounts[currentClipLabel]);
+      parent.removeChild(child);
+    }
+  };
+
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: "100%",
+          videoId: 'jay6mAeCqV4',
+          events: {
+            'onReady': onPlayerReady,
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
+        $( function() {
+        $( "#slider-range" ).slider({
+          range: true,
+          max : player.getDuration(),
+          value : [0,player.getDuration()],
+          values: [ 0,10],
+          formatter: function(value) {
+            //This checks if we truly have the two value we expect to have
+            if(value[1] != null){
+              selectorMin = value[0];
+              selectorMax = value[1];
+            }
+            var minutes0 = Math.floor(value[0] / 60);
+            var seconds0 = value[0] - (minutes0 * 60);
+            var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
+            var minutes1 = Math.floor(value[1] / 60);
+            var seconds1 = value[1] - (minutes1 * 60);
+            var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
+            return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
+          },
+          slide: function( event, ui ) {
+            if(selectorMax != ui.values[1] && selectorMin == ui.values[0]){
+              player.seekTo(ui.values[1]);
+            }
+            else{
+              player.seekTo(ui.values[0]);
+            }
+            console.log(ui.values);
+
+            selectorMin = ui.values[0];
+            selectorMax = ui.values[1];
+          }
+        });
+      } );
+      }
+
+
+    $(document).ready(function() {
+
+
+
+      function setPrimaryLabel(index){
+        $('#createNewSegment').prop('disabled', false);
+
+        if(index == currentClipLabel){
+          return;
+        }
+        //set colors to greyed out
+        for(j = 0; j < label_fors.length; j++){
+          var currentLabel = label_fors[j];
+          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+          var sliderBaseID = currentLabel + "Slider";
+          var labelSelector = document.getElementById(labelSelectorID);
+          labelSelector.style.backgroundColor = "#80ffaa";
+          //$('#valenceSlider')
+        }
+
+        var currentLabel = label_fors[currentClipLabel];
+        var sliderBaseID = currentLabel + "Slider";
+        for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
+          sliderID = sliderBaseID + k.toString();
+          remove(currentLabel + "Slider" + (k.toString()));
+        }
+
+        
+        currentLabel = label_fors[index];
+        var sliderTextID = currentLabel + "Sliders";
+        var temp = (document.getElementById(sliderTextID).value);
+        temp = temp.split(",");
+        sliderBaseID = currentLabel + "Slider";
+        console.log(currentLabel);
+        console.log(temp);
+        for(k = 0; k < labelClipCounts[index]; k++){
+          var temp2 = (temp[k]).split("-")
+          sliderID = sliderBaseID + k.toString();
+          add(index,parseInt(temp2[0]),parseInt(temp2[1]),k);
+        }
+
+        var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+        var labelSelector = document.getElementById(labelSelectorID);
+        labelSelector.style.backgroundColor = "#5cb85c";
+
+        currentClipLabel = index;
+
+
+
+      };
+
+      function setLabels(){
+        for(var k = 0; k < label_fors.length; k++){
+          var i = k;
+          var currentLabel = label_fors[k];
+          var commentWarning = ("#comment"+ currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Warning");
+          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
+          var labelSelector = document.getElementById(labelSelectorID);
+          var clipSelector = document.getElementById(clipSelectorID);
+          labelSelector.style.backgroundColor = "#80ffaa";
+
+          $(commentWarning).hide();
+          //$('#valenceSlider')
+          console.log(labelSelectorID);
+          function concreteIndex(index){
+            return function(){
+              setPrimaryLabel(index);
+            }
+          }
+          $('#' + labelSelectorID).on("click", concreteIndex(i));
+        }
+      }
+      setLabels();
+
+            // highlight selected category
+      $('#arousalSlider').bootstrapSlider({
+        });
+      var inputs = $("#Inputs input:radio");
+      inputs.change(function(){
+        inputs.parent().removeClass("btn-success");
+        inputs.parent().addClass("btn-default");
+        if($(this).is(":checked")){
+          $(this).parent().removeClass("btn-default");
+          $(this).parent().addClass("btn-success");
+        }else{
+          $(this).parent().removeClass("btn-success");
+          $(this).parent().addClass("btn-default");
+        }
+      });
+      // end highlight
+      function changeSliderVal(slideEvt,sliderVal){
+        if(slideEvt.value <= 20){ 
+          $(sliderVal).text("Strong Negative");
+        }
+        else if(slideEvt.value <= 40){ 
+          $(sliderVal).text("Medium Negative");
+        }
+        else if(slideEvt.value <= 60){ 
+          $(sliderVal).text("Neutral");
+        }
+        else if(slideEvt.value <= 80){ 
+          $(sliderVal).text("Medium Positive");
+        }
+        else{ 
+          $(sliderVal).text("Strong Positive");
+        }
+
+      };
+
+      function changeSliderAro(slideEvt,sliderVal){
+        if(slideEvt.value <= 20){ 
+          $(sliderVal).text("Low");
+        }
+        else if(slideEvt.value <= 40){ 
+          $(sliderVal).text("Medium Low");
+        }
+        else if(slideEvt.value <= 60){ 
+          $(sliderVal).text("Neutral");
+        }
+        else if(slideEvt.value <= 80){ 
+          $(sliderVal).text("Medium High");
+        }
+        else{ 
+          $(sliderVal).text("High");
+        }
+
+      };
+
+    // Instructions expand/collapse
+    var content = $('#instructionBody');
+    var trigger = $('#collapseTrigger');
+    content.hide();
+    $('.collapse-text').text('(Click to expand)');
+    trigger.click(function(){
+      content.toggle();
+      var isVisible = content.is(':visible');
+      if(isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+      }else{
+        $('.collapse-text').text('(Click to expand)');
+      }
+    });
+
+
+    $('#arousalSlider').bootstrapSlider();
+    $('#arousalSlider').on("slide", function(slideEvt){
+      changeSliderAro(slideEvt,"#arousalSliderVal");
+    })
+    $('#valenceSlider').bootstrapSlider();
+    $('#valenceSlider').on("slide", function(slideEvt){
+      changeSliderVal(slideEvt,"#valenceSliderVal");
+    })
+    
+
+  });
+
+    $(document).ready(function() {
+      $('.label').click(function() {
+        var element = $(this).get()[0];
+        var classes = element.className.split(' ');
+        var label_for = "";
+        for (var c in classes) {
+          if (label_fors.indexOf(classes[c]) >= 0) {
+            label_for = classes[c];
+          }
+        }
+        $("." + label_for).removeClass('selected');
+        $(this).addClass('selected');
+        if ($(this).hasClass('none')) {
+          document.getElementById(label_for).setAttribute('value', 0);
+        }
+        else if ($(this).hasClass('weak')) {
+          document.getElementById(label_for).setAttribute('value', 1);
+        }
+        else if ($(this).hasClass('medium')) {
+          document.getElementById(label_for).setAttribute('value', 2);
+        }
+        else if ($(this).hasClass('strong')) {
+          document.getElementById(label_for).setAttribute('value', 3);
+        }
+        else if ($(this).hasClass('extreme')) {
+          document.getElementById(label_for).setAttribute('value', 4);
+        }
+      });
+    });
+    $(document).keypress(function(e) {
+      if (e.which == 13) {
+        $("#trigger").click();
+      }
+    });
+    function resize_iframe(){
+      $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
+      //$('.slider').css("width", ($('.myIframe').height()) * (16/9)- 20 + "px");
+    }
+    window.onresize = resize_iframe;
+    part1_buttons = ["happiness","sadness","anger","disgust","surprise",
+    "persuasion", "logos","pathos","ethos","aggressiveness"];
+    function finished_part1(){
+      finished = true;
+      for(button_idx in part1_buttons){
+        finished = finished  && (document.getElementById(part1_buttons
+          [button_idx]).value != -1);
+      }
+
+      if(finished || testingmode){
+          $('#part2').show();
+          $('#warning').hide();
+      }
+      else{
+        $('#warning').text("You Must Answer all Questions in Part 1")
+        $('#warning').show();
+      }
+      return finished;
+    }
+
+    part2_buttons = ["ethos","pathos", "logos", "genuine", "profesional", "credible", "intro", "setup", "trustable", "human"];
+    function finished_part2(){
+      finished = true;
+      for(button_idx in part2_buttons){
+        finished = finished  && (document.getElementById(part2_buttons
+          [button_idx]).value != -1);
+      }
+
+      if(finished || testingmode){
+          $('#part3').show();
+          $('#warning').hide();
+      }
+      else{
+        $('#warning').text("You Must Answer all Questions in Part 2")
+        $('#warning').show();
+      }
+      return finished;
+    }
+
+    function validCharCount(val){
+      var length = val.value.length;
+      $('#' + (val.id).substring(0,(val.id).length - 4)).val(val.value);
+      console.log($('#' + (val.id).substring(0,(val.id).length - 4)).val());
+      if(length < 150){
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Under 150 characters used");
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
+      }
+      else if(length > 300){
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Over 300 characters used");
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
+      }
+      else{
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').hide();
+      }
+    }
+
+    $(function () {
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            if(finished_part1()){
+              $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            else{
+              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
+            }
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+
+    $(function () {
+    $('.button-checkbox2').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            if(finished_part2()){
+              $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            else{
+              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
+            }
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+  $('#selectClip').hide();
+
+  $('#warning').hide();
+  $('#part2').hide();
+  $('#part3').hide();
+
+  </script>
+
+<!-- Close internal javascript -->

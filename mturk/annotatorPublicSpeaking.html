@@ -1,11 +1,6 @@
 <!-- HIT template: Sentiment-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
-<!DOCTYPE html>
-<html lang="en">
-
 <meta content="width=device-width,initial-scale=1" name="viewport" />
-<meta charset="utf-8"/>
-<style type="text/css">
-.label {
+<style type="text/css">.label {
   border: 1px;
   border-color: black;
   border-style: solid;
@@ -29,22 +24,12 @@
 .extreme {
   background-color: #6f6f6f;
 }
-#selectClip {
-    margin-left: 10px !important;
-}
-#selectClip .slider-selection {
-  background: yellow;
-}
 </style>
 
+<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
-
-<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4=" crossorigin="anonymous"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" rel="stylesheet" /><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4=" crossorigin="anonymous"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" /><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><!-- <link href="{% static "bootstrap.css" %}" rel="stylesheet"> -->
 <section class="container" id="Sentiment"><!-- Instructions (collapsible) -->
   <div class="row">
     <div class="col-xs-12 col-md-12">
@@ -101,88 +86,28 @@
 <h2 style="color: red; margin: 2%;" id="warning">You Must Answer all Questions
  in Part 1</h2>
 
-<!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
 <div class="row" style="margin:1%;">
-  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="background-color: white; width:50%; height: auto; display:inline-block; float:left;">
-    <div class="myIframe" frameborder="0" id="player" scrolling="no"  width="100%"></div>
+  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="background-color: white; width:50%; height: auto; display:inline-block; float:left;"><iframe class="myIframe" frameborder="0" id="video_frame" scrolling="no" src="https://www.youtube.com/embed/${VIDEO_ID}?cc_load_policy=1" width="100%"></iframe></div>
 
-    <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span>
-    <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" class="btn btn-default" id="createNewSegment">Create New Segment</button>
-    <button class="btn btn-danger" id="removeLastSegment">Remove Last Segment</button>
-    <div>
-      <h4>Segments:</h4>
-      <div id="segmentHeader"> </div>
-
-      
-
-    </div>
-
-  </div>
-
-  <div class="col-lg-6" style="width:50%;">
-   <ul class="nav nav-tabs">
-      <li class="active"><a href="#emotion" data-toggle="tab">Sentiment</a></li>
-      <li><a href="#persuasion" data-toggle="tab">Persuasion</a></li>
-
-    </ul>
-    <div class="tab-content">
-    <div id="emotion" class="tab-pane active">
+  <div class="col-md-3">
     <h4>Ekman Emotions</h4>
 
 
     <div class="input-group">
       <p><b>Happiness</b></p>
-      <div class="col-lg-4">
-        <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentHappiness" class="btn btn-default btn-sm">Segment Now</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Clip  
-          <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="selectHappinessClip">
-            
-          </ul>
-        </div>
-        <br>
-        <span class="happiness label none"><font color="black">None</font></span> 
-        <span class="happiness label weak"><font color="black">Weak</font></span> 
-        <span class="happiness label medium"><font color="black">Moderate</font></span> 
-        <span class="happiness label strong"><font color="black">Strong</font></span> 
-        <span class="happiness label extreme"><font color="black">Extreme</font></span>
 
-      <input id="happiness" name="happiness" type="hidden" value="" />
-      <input id="happinessSliders" name="happinessSliders" type="hidden" value="" />
-      </div>
-      <div class="col-lg-6">
-      <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of happiness you selected (150-300
-          characters):</label>
-          <label id="commentHappinessWarning" style="color: red"
-          for="comment">Under 150
-           characters used</label>
-          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
-          id="happinessTextArea"></textarea>
-      </div> 
-      <input class="form-control" id="happinessText" name="happinessText" type="hidden" required="" value=""/>
-      </div>
-
-    
+      <center>
+      <span class="happiness label none" value="0"><font color="black">None</font></span> 
+      <span class="happiness label weak"><font color="black">Weak</font></span> 
+      <span class="happiness label medium"><font color="black">Moderate</font></span> 
+      <span class="happiness label strong"><font color="black">Strong</font></span> 
+      <span class="happiness label extreme"><font color="black">Extreme</font></span></center>
+      <input id="happiness" name="happiness" type="hidden" value="-1" />
+      <p>&nbsp;</p>
     </div>
 
-
-    <div class="input-group" style="margin-top: 10px;">
+    <div class="input-group">
       <p><b>Sadness</b></p>
-      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSadness" class="btn btn-default btn-sm">Segment Now</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Clip  
-          <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="selectSadnessClip">
-            
-          </ul>
-        </div>
-        <br>
 
       <center>
       <span class="sadness label none"><font color="black">None</font></span> 
@@ -190,24 +115,12 @@
       <span class="sadness label medium"><font color="black">Moderate</font></span> 
       <span class="sadness label strong"><font color="black">Strong</font></span> 
       <span class="sadness label extreme"><font color="black">Extreme</font></span></center>
-      <input id="sadness" name="sadness" type="hidden" value="-1" />
-      <input id="sadnessSliders" name="sadnessSliders" type="hidden" value="" />
+      <input id="sadness" name="sadness" type="hidden" value="-1"/>
       <p>&nbsp;</p>
     </div>
 
     <div class="input-group">
       <p><b>Fear</b></p>
-      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFear" class="btn btn-default btn-sm">Segment Now</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Clip  
-          <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="selectFearClip">
-            
-          </ul>
-        </div>
-        <br>
 
       <center>
       <span class="fear label none"><font color="black">None</font></span> 
@@ -216,23 +129,11 @@
       <span class="fear label strong"><font color="black">Strong</font></span> 
       <span class="fear label extreme"><font color="black">Extreme</font></span></center>
       <input id="fear" name="fear" type="hidden" value="-1" />
-      <input id="fearSliders" name="fearSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
     <div class="input-group">
       <p><b>Anger</b></p>
-      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAnger" class="btn btn-default btn-sm">Segment Now</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Clip  
-          <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="selectAngerClip">
-            
-          </ul>
-        </div>
-        <br>
 
       <center>
       <span class="anger label none"><font color="black">None</font></span> 
@@ -241,23 +142,11 @@
       <span class="anger label strong"><font color="black">Strong</font></span> 
       <span class="anger label extreme"><font color="black">Extreme</font></span></center>
       <input id="anger" name="anger" type="hidden" value="-1" />
-      <input id="angerSliders" name="angerSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
     <div class="input-group">
       <p><b>Disgust</b></p>
-      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentDisgust" class="btn btn-default btn-sm">Segment Now</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Clip  
-          <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="selectDisgustClip">
-            
-          </ul>
-        </div>
-        <br>
 
       <center>
       <span class="disgust label none"><font color="black">None</font></span> 
@@ -266,23 +155,11 @@
       <span class="disgust label strong"><font color="black">Strong</font></span> 
       <span class="disgust label extreme"><font color="black">Extreme</font></span></center>
       <input id="disgust" name="disgust" type="hidden" value="-1" />
-      <input id="disgustSliders" name="disgustSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
     <div class="input-group">
       <p><b>Surprise</b></p>
-      <button style="color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSurprise" class="btn btn-default btn-sm">Segment Now</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Clip  
-          <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="selectSurpriseClip">
-            
-          </ul>
-        </div>
-        <br>
 
       <center>
       <span class="surprise label none"><font color="black">None</font></span> 
@@ -291,7 +168,6 @@
       <span class="surprise label strong"><font color="black">Strong</font></span> 
       <span class="surprise label extreme"><font color="black">Extreme</font></span></center>
       <input id="surprise" name="surprise" type="hidden" value="-1" />
-      <input id="surpriseSliders" name="surpriseSliders" type="hidden" value="" />
       <p>&nbsp;</p>
     </div>
 
@@ -299,8 +175,7 @@
   </div>
 
 
-  <div id="persuasion" class="tab-pane">
-
+  <div class="col-md-3">
 
         <div class="input-group">
           <p><b>Persuasion</b></p>
@@ -366,17 +241,269 @@
           <input id="gestures" name="gestures" type="hidden" value="-1" />
           <p>&nbsp;</p>
         </div>
+
+          <span class="button-checkbox">
+            <button type="button" class="btn" data-color="primary">Continue</button>
+            <input required="" type="checkbox" class="hidden" />
+          </span>     
+
+
+      </div>
       </div>
 
  
-    
-http://127.0.0.1
-     </div>
+    <div class="row" style="margin:1%;" id="part2">
+     <div class="col-md-3">
+       <h4>Continuous Emotions (see definitions under Video Analysis Instructions at the top)</h4>
+
+    <div class="input-group">
+      <div><label>Arousal: 
+      <span id="arousalSliderVal"><font color="black">Neutral</font></span></label></div>
+      <input data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="arousalSlider" name="arousal" type="text" /></div>
+
+      <div class="input-group">
+        <div><label>Valence: 
+        <span id="valenceSliderVal"><font color="black">Neutral</font></span></label></div>
+        <input data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="valenceSlider" name="valence" type="text" />
+      </div>
+
+      <h4>Is the Speaker Acting?</h4>
+
+
+        <div class="input-group"><label><input name="acting" required="" type="radio" value="1" /><font color="green">Yes</font></label></div>
+
+        <div class="input-group"><label><input name="acting" required="" type="radio" value="0" /><font color="red">No</font></label></div>
+
+        <p>&nbsp;</p>
+
+
+
+    </div>
+
+      
+
+      <div class="col-md-3">
+        <h4>Persuasion Techniques Used</h4>
+        <div class="input-group">
+          <p><b>Ethos</b></p>
+          <center>
+          <span class="ethos label none"><font color="black">None</font></span> 
+          <span class="ethos label weak"><font color="black">Weak</font></span> 
+          <span class="ethos label medium"><font color="black">Moderate</font></span> 
+          <span class="ethos label strong"><font color="black">Strong</font></span> 
+          <span class="ethos label extreme"><font color="black">Extreme</font></span></center>
+          <input id="ethos" name="ethos" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Pathos</b></p>
+          <center>
+          <span class="pathos label none"><font color="black">None</font></span> 
+          <span class="pathos label weak"><font color="black">Weak</font></span> 
+          <span class="pathos label medium"><font color="black">Moderate</font></span> 
+          <span class="pathos label strong"><font color="black">Strong</font></span> 
+          <span class="pathos label extreme"><font color="black">Extreme</font></span></center>
+          <input id="pathos" name="pathos" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Logos</b></p>
+          <center>
+          <span class="logos label none"><font color="black">None</font></span> 
+          <span class="logos label weak"><font color="black">Weak</font></span> 
+          <span class="logos label medium"><font color="black">Moderate</font></span> 
+          <span class="logos label strong"><font color="black">Strong</font></span> 
+          <span class="logos label extreme"><font color="black">Extreme</font></span></center>
+          <input id="logos" name="logos" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+      </div>
+
+    <div class="col-md-3">
+
+      <div class="input-group">
+          <p><b>Was the speaker genuine and sincere?</b></p>
+          <center>
+          <span class="genuine label none"><font color="black">Not
+          at all</font></span>
+          <span class="genuine label weak"><font
+          color="black">Somewhat</font></span>
+          <span class="genuine label medium"><font color="black">Moderately</font></span> 
+          <span class="genuine label strong"><font
+          color="black">Mostly</font></span>
+          <span class="genuine label extreme"><font color="black">Completely</font></span></center>
+          <input id="genuine" name="genuine" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Did the speaker display a profesional attitude?</b></p>
+          <center>
+          <span class="profesional label none"><font color="black">Not
+          at all</font></span>
+          <span class="profesional label weak"><font
+          color="black">Somewhat</font></span>
+          <span class="profesional label medium"><font color="black">Moderately</font></span> 
+          <span class="profesional label strong"><font
+          color="black">Mostly</font></span>
+          <span class="profesional label extreme"><font color="black">Completely</font></span></center>
+          <input id="profesional" name="profesional" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Was the speaker credible and believable?</b></p>
+          <center>
+          <span class="credible label none"><font color="black">Not
+          at all</font></span>
+          <span class="credible label weak"><font
+          color="black">Somewhat</font></span>
+          <span class="credible label medium"><font color="black">Moderately</font></span> 
+          <span class="credible label strong"><font
+          color="black">Mostly</font></span>
+          <span class="credible label extreme"><font color="black">Completely</font></span></center>
+          <input id="credible" name="credible" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <div class="input-group">
+          <p><b>Are you human? (important for payment)</b></p>
+          <center>
+          <span class="human label none"><font color="black">Not
+          at all</font></span>
+          <span class="human label weak"><font
+          color="black">Somewhat</font></span>
+          <span class="human label medium"><font color="black">Probably not</font></span> 
+          <span class="human label strong"><font
+          color="black">Yes</font></span>
+          <span class="human label extreme"><font color="black">Nope</font></span></center>
+          <input id="human" name="human" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+
+    </div>
+       
+      <div class="col-md-3">
+
+      <div class="input-group">
+          <p><b>Was the speaker trustable and reliable?</b></p>
+          <center>
+          <span class="trustable label none"><font color="black">Not
+          at all</font></span>
+          <span class="trustable label weak"><font
+          color="black">Somewhat</font></span>
+          <span class="trustable label medium"><font color="black">Moderately</font></span> 
+          <span class="trustable label strong"><font
+          color="black">Mostly</font></span>
+          <span class="trustable label extreme"><font color="black">Completely</font></span></center>
+          <input id="trustable" name="trustable" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+      <div class="input-group">
+          <p><b>Rate the speaker's setup</b></p>
+          <center>
+          <span class="setup label none"><font
+          color="black">Very Poor</font></span>
+          <span class="setup label weak"><font
+          color="black">Poor</font></span>
+          <span class="setup label medium"><font
+          color="black">Mediocore</font></span> 
+          <span class="setup label strong"><font
+          color="black">Good</font></span>
+          <span class="setup label extreme"><font
+          color="black">Great</font></span></center>
+          <input id="setup" name="setup" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+      <div class="input-group">
+          <p><b>Rate the speaker's introduction</b></p>
+          <center>
+          <span class="intro label none"><font
+          color="black">Very Poor</font></span>
+          <span class="intro label weak"><font
+          color="black">Poor</font></span>
+          <span class="intro label medium"><font
+          color="black">Mediocore</font></span> 
+          <span class="intro label strong"><font
+          color="black">Good</font></span>
+          <span class="intro label extreme"><font
+          color="black">Great</font></span></center>
+          <input id="intro" name="intro" type="hidden" value="-1" />
+          <p>&nbsp;</p>
+        </div>
+
+        <span class="button-checkbox2">
+            <button type="button" class="btn" data-color="primary">Continue</button>
+            <input required="" type="checkbox" class="hidden" />
+          </span>    
+
+      </div>
+    </div>
+
+    <div class="row" style="margin:1%;" id="part3">
+     <div class="col-md-3">
+     <div class="form-group">
+          <label for="comment">Advice for Speaker Improvement (100-300
+          characters):</label>
+          <label id="commentAdviceWarning" style="color: red"
+          for="comment">Under 200
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="Advice"></textarea>
+          <input class="form-control" id="advice" name="advice" type="hidden" required="" />
+        </div> 
+      </div>
+
+     <div class="col-md-3">
+     <div class="form-group">
+          <label for="comment">How would you describe the speaker? (100-300
+          characters):</label>
+          <label id="commentSpeakerWarning" style="color: red"
+          for="comment">Under 200
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="Speaker"></textarea>
+          <input class="form-control" id="speaker" name="speaker" type="hidden" required="" />
+        </div> 
+      </div>
+
+      <div class="col-md-3">
+     <div class="form-group">
+          <label for="comment">How did you feel watching this video? (100-300
+          characters):</label>
+          <label id="commentFeelWarning" style="color: red" for="comment">Under
+           200
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="Feel"></textarea>
+          <input class="form-control" id="feel" name="feel" type="hidden" required="" />
+
+        </div> 
+      </div>
+
+      <div class="col-md-3">
+     <div class="form-group">
+          <label for="comment">How would you describe the speech?(100-300
+          characters):</label>
+          <label id="commentSpeechWarning" style="color: red"
+          for="comment">Under 200
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="Speech"></textarea>
+          <input class="form-control" id="speech" name="speech" type="hidden" required="" />
+
+        </div> 
+      </div>
+
      </div>
     <!-- End Categorization Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" /><!-- Open internal style sheet -->
-    <style type="text/css">
-    #collapseTrigger{
+    <style type="text/css">#collapseTrigger{
       color:#fff;
       display: block;
       text-decoration: none;
@@ -403,248 +530,40 @@ http://127.0.0.1
       margin-top: -5px;
     }
   </style>
+  <style type="text/css">#collapseTrigger{
+    color:#fff;
+    display: block;
+    text-decoration: none;
+  }
+  #submitButton{
+    white-space: normal;
+  }
+  #instructionBody table{
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  #instructionBody table caption{
+    text-align: left;
+    padding: 0 0 5px 0;
+  }
+  #Inputs{
+    display: block;
+    margin-top: 10px;
+  }
+  .content{
+    margin-bottom: 15px;
+  }
+  .radio:first-of-type{
+    margin-top: -5px;
+  }
+</style>
 <!-- Close internal style sheet --><!-- External JS references -->
 <!-- Open internal javascript -->
-<script type="text/javascript">
+  <script type="text/javascript">
   var testingmode = true;
 
-  //TODO: remove random comments below
-  // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
-  var selectorMin = 0;
-  var selectorMax = 0;
-
-  var label_fors = [
-    "happiness", "sadness", "fear", "anger", "disgust", "surprise",
-    "persuasion", "engagement", "humor", "confidence", "gestures", "ethos",
-    "pathos", "logos", "genuine", "profesional", "credible", "intro", "setup",
-    "trustable", "human"
-    ];
-
-  var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-  var currentClipLabel = 0;
-
-  function add(identity,min,max,index) {
-    //selectHappinessClip
-  //Create an input type dynamically.
-    var localLabel = label_fors[identity]
-    var id = localLabel + "Slider" + index
-    var element = document.createElement("input");
-    element.id = id;
-    var sliderTextID = localLabel + "Sliders";
-
-    //selectorOption.text = "Clip " + (labelClipCounts[currentClipLabel] + 1);
-
-    function concreteIndex(concInd){
-      return function(value){
-        //This checks if we truly have the two value we expect to have
-        if(value[1] != null){
-          var temp = (document.getElementById(sliderTextID).value).split(",");
-          if(temp[concInd] != ""){
-            temp[concInd] = value[0] + '-' + value[1]; 
-          }
-          temp.join(",");
-          document.getElementById(sliderTextID).value = temp;
-          console.log(document.getElementById(sliderTextID).value);
-        }
-        var minutes0 = Math.floor(value[0] / 60);
-        var seconds0 = value[0] - (minutes0 * 60);
-        var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
-        var minutes1 = Math.floor(value[1] / 60);
-        var seconds1 = value[1] - (minutes1 * 60);
-        var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
-        return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
-      }
-    }
-
-    var segHead = document.getElementById("segmentHeader");
-    //Append the element in page (in span).  
-    segHead.appendChild(element);
-
-    $('#' + id).css("width", ($('#player').width()) - 20 + "px");
-    //TODO: can't use currentClipLabel below, must pass in the actual index because you aren't always creating a new slider
-    $('#' + id).slider({
-          max : player.getDuration(),
-          value : [min,max],
-          formatter: concreteIndex(index),
-          id : "selectClip"
-        });
-
-  }
-  document.getElementById("createNewSegment").onclick = function() {
-    var localLabel = label_fors[currentClipLabel]
-    add(currentClipLabel,selectorMin,selectorMax,labelClipCounts[currentClipLabel]);
-    var localLabel = label_fors[currentClipLabel]
-    var sliderTextID = localLabel + "Sliders";
-    var temp = (document.getElementById(sliderTextID).value).split(",")
-    temp[labelClipCounts[currentClipLabel]] = selectorMin + '-' + selectorMax;
-    temp.join(",");
-    document.getElementById(sliderTextID).value = temp;
-
-    var dropSelectorID = "select" + localLabel.charAt(0).toUpperCase() + localLabel.slice(1) + "Clip";
-    $("#" + dropSelectorID).append("<li id='dropOpt" + localLabel + labelClipCounts[currentClipLabel] + "'><a href='#'>Clip "+ labelClipCounts[currentClipLabel] +"</a></li>")
-    labelClipCounts[currentClipLabel]++;
-
-  };
-
-  function remove(id){
-    var parent = document.getElementById("segmentHeader");
-    var child = document.getElementById(id);
-    $("#" + id).slider('destroy');
-    parent.removeChild(child);
-
-  }
-
-  document.getElementById("removeLastSegment").onclick = function() {
-    if(labelClipCounts[currentClipLabel] >= 1){
-      remove(label_fors[currentClipLabel] + "Slider" + (labelClipCounts[currentClipLabel]-1));
-      labelClipCounts[currentClipLabel]--;
-
-      var localLabel = label_fors[currentClipLabel]
-      var sliderTextID = localLabel + "Sliders";
-      var temp = (document.getElementById(sliderTextID).value).split(",")
-      temp.splice(labelClipCounts[currentClipLabel],1);
-      temp.join(",");
-      document.getElementById(sliderTextID).value = temp;
-
-      var dropSelectorID = "select" + localLabel.charAt(0).toUpperCase() + localLabel.slice(1) + "Clip";
-      parent = document.getElementById(dropSelectorID);
-      child = document.getElementById("dropOpt" + localLabel + labelClipCounts[currentClipLabel]);
-      parent.removeChild(child);
-    }
-  };
-
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '390',
-          width: "100%",
-          videoId: 'jay6mAeCqV4',
-          events: {
-            'onReady': onPlayerReady,
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
-        $('#selectClip').css("width", ($('#player').width()) - 20 + "px");
-        $('#selectClip').slider({
-          max : player.getDuration(),
-          value : [0,player.getDuration()],
-          slide: function( event,ui) {console.log(ui.value)},
-          formatter: function(value) {
-            //This checks if we truly have the two value we expect to have
-            if(value[1] != null){
-              selectorMin = value[0];
-              selectorMax = value[1];
-            }
-            var minutes0 = Math.floor(value[0] / 60);
-            var seconds0 = value[0] - (minutes0 * 60);
-            var seconds0str = (seconds0 < 10) ? ("0" + seconds0) : seconds0.toString() ;
-            var minutes1 = Math.floor(value[1] / 60);
-            var seconds1 = value[1] - (minutes1 * 60);
-            var seconds1str = (seconds1 < 10) ? ("0" + seconds1) : seconds1.toString();
-            return minutes0 + ":" + seconds0str + " - " + minutes1 + ":" + seconds1str 
-          },
-          id : "selectClip"
-        });
-
-      }
-
-
     $(document).ready(function() {
-
-
-
-      function setPrimaryLabel(index){
-        if(index == currentClipLabel){
-          return;
-        }
-        console.log("ONE SET");
-        console.log("Value at start of current: " + document.getElementById(label_fors[index] + "Sliders").value);
-        console.log("Value at start of prev: " + document.getElementById(label_fors[currentClipLabel] + "Sliders").value);
-        //set colors to greyed out
-        for(j = 0; j < 6; j++){
-          var currentLabel = label_fors[j];
-          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-          var sliderBaseID = currentLabel + "Slider";
-          var labelSelector = document.getElementById(labelSelectorID);
-          labelSelector.style.backgroundColor = "#8fbd8f";
-          //$('#valenceSlider')
-        }
-
-        var currentLabel = label_fors[currentClipLabel];
-        var sliderBaseID = currentLabel + "Slider";
-        for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
-          sliderID = sliderBaseID + k.toString();
-          remove(currentLabel + "Slider" + (k.toString()));
-        }
-
-        
-        currentLabel = label_fors[index];
-        var sliderTextID = currentLabel + "Sliders";
-        var temp = (document.getElementById(sliderTextID).value);
-        temp = temp.split(",");
-        sliderBaseID = currentLabel + "Slider";
-        console.log(currentLabel);
-        console.log(temp);
-        for(k = 0; k < labelClipCounts[index]; k++){
-          var temp2 = (temp[k]).split("-")
-          sliderID = sliderBaseID + k.toString();
-          add(index,parseInt(temp2[0]),parseInt(temp2[1]),k);
-        }
-
-        var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-        var labelSelector = document.getElementById(labelSelectorID);
-        labelSelector.style.backgroundColor = "#5cb85c";
-
-        console.log("Value at end of current: " + document.getElementById(label_fors[index] + "Sliders").value);
-        console.log("Value at end of prev: " + document.getElementById(label_fors[currentClipLabel] + "Sliders").value);
-
-        currentClipLabel = index;
-
-
-
-      };
-
-      function setLabels(){
-        for(var k = 0; k < 6; k++){
-          var i = k;
-          var currentLabel = label_fors[k];
-          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
-          var labelSelector = document.getElementById(labelSelectorID);
-          var clipSelector = document.getElementById(clipSelectorID);
-          labelSelector.style.backgroundColor = "#8fbd8f";
-          //$('#valenceSlider')
-          console.log(labelSelectorID);
-          function concreteIndex(index){
-            return function(){
-              setPrimaryLabel(index);
-            }
-          }
-          $('#' + labelSelectorID).on("click", concreteIndex(i));
-        }
-        var currentLabel = label_fors[currentClipLabel];
-        var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-        var labelSelector = document.getElementById(labelSelectorID);
-        labelSelector.style.backgroundColor = "#5cb85c";
-        setPrimaryLabel(0);
-      }
-      setLabels();
-
             // highlight selected category
-      $('#arousalSlider').slider({
-        });
       var inputs = $("#Inputs input:radio");
       inputs.change(function(){
         inputs.parent().removeClass("btn-success");
@@ -711,7 +630,6 @@ http://127.0.0.1
       }
     });
 
-
     $('#arousalSlider').slider();
     $('#arousalSlider').on("slide", function(slideEvt){
       changeSliderAro(slideEvt,"#arousalSliderVal");
@@ -724,6 +642,12 @@ http://127.0.0.1
 
   });
 
+    var label_fors = [
+    "fear", "happiness", "sadness", "anger", "disgust", "surprise",
+    "persuasion", "engagement", "humor", "confidence", "gestures", "ethos",
+    "pathos", "logos", "genuine", "profesional", "credible", "intro", "setup",
+    "trustable", "human"
+    ];
     $(document).ready(function() {
       $('.label').click(function() {
         var element = $(this).get()[0];
@@ -760,9 +684,10 @@ http://127.0.0.1
     });
     function resize_iframe(){
       $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
-      $('.slider').css("width", ($('.myIframe').height()) * (16/9)- 20 + "px");
     }
+    $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
     window.onresize = resize_iframe;
+
     part1_buttons = ["happiness","sadness","anger","disgust","surprise",
     "persuasion", "engagement","humor","confidence","gestures"];
     function finished_part1(){
@@ -802,20 +727,23 @@ http://127.0.0.1
       return finished;
     }
 
+
     function validCharCount(val){
       var length = val.value.length;
-      $('#' + (val.id).substring(0,(val.id).length - 4)).val(val.value);
-      console.log($('#' + (val.id).substring(0,(val.id).length - 4)).val());
-      if(length < 150){
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Under 150 characters used");
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
+      $('#'.concat((val.id).toLowerCase())).val(val.value);
+      console.log($('#'.concat((val.id).toLowerCase())).val());
+      if(length < 100){
+        $('#comment'.concat((val.id).concat('Warning'))).text("Under 100 \
+         characters used");
+        $('#comment'.concat((val.id).concat('Warning'))).show();
       }
       else if(length > 300){
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Over 300 characters used");
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
+        $('#comment'.concat((val.id).concat('Warning'))).text("Over 300 characters \
+         used");
+        $('#comment'.concat((val.id).concat('Warning'))).show();
       }
       else{
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').hide();
+        $('#comment'.concat((val.id).concat('Warning'))).hide();
       }
     }
 
@@ -960,12 +888,10 @@ http://127.0.0.1
         init();
     });
 });
-  $('#selectClip').hide();
-
   $('#warning').hide();
   $('#part2').hide();
   $('#part3').hide();
-  $('#commentHappinessWarning').hide();
+  $('#commentAdviceWarning').hide();
   $('#commentSpeechWarning').hide();
   $('#commentFeelWarning').hide();
   $('#commentSpeakerWarning').hide();
