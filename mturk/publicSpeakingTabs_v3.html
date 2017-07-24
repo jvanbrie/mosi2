@@ -12,21 +12,87 @@
 .selected {
   background-color: #fff59d !important;
 }
-.none {
+
+.none-rg {
+  background-color: #ff0000;
+}
+.weak-rg {
+  background-color: #ff9999;
+}
+.medium-rg {
   background-color: white;
 }
-.weak {
+.strong-rg {
+  background-color: #4dff4d;
+}
+.extreme-rg {
+  background-color: #008000;
+}
+
+.none-y {
+  background-color: white;
+}
+.weak-y {
+  background-color: #ffd280;
+}
+.medium-y {
+  background-color: #ffc14d;
+}
+.strong-y {
+  background-color: #ffaf1a;
+}
+.extreme-y {
+  background-color: #e69500;
+}
+
+.none-r {
+  background-color: white;
+}
+.weak-r {
+  background-color: #ffcccc;
+}
+.medium-r {
+  background-color: #ff9999;
+}
+.strong-r {
+  background-color: #ff4d4d;
+}
+.extreme-r {
+  background-color: #ff0000;
+}
+
+.none-g {
+  background-color: white;
+}
+.weak-g {
+  background-color: #99ff99;
+}
+.medium-g {
+  background-color: #4dff4d;
+}
+.strong-g {
+  background-color: #00cc00;
+}
+.extreme-g {
+  background-color: #008000;
+}
+
+.none-org {
+  background-color: white;
+}
+.weak-org {
   background-color: #dfdfdf;
 }
-.medium {
+.medium-org {
   background-color: #c1c1c1;
 }
-.strong {
+.strong-org {
   background-color: #8d8d8d;
 }
-.extreme {
+.extreme-org {
   background-color: #6f6f6f;
 }
+
 #selectClip {
     margin-left: 10px !important;
 }
@@ -110,44 +176,7 @@
       --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Video Analysis Instructions</strong> 
       <span class="collapse-text">(Click to expand)</span> </a>
         <div class="panel-body" id="instructionBody"><strong>You must
-        answer all questins in the first part. Then click continue and
-        fill out all questions that apply in the second part. This
-        table describes some of the terms used: </strong>
-          <table class="table table-condensed table-striped table-responsive">
-            <tbody>
-            </tbody>
-            <colgroup>
-            <col class="col-xs-2 col-md-2" />
-            <col class="col-xs-10 col-md-10" />
-          </colgroup>
-          <!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
-          <tbody>
-            <tr>
-              <th>Term</th>
-              <th>Definition</th>
-            </tr>
-            <tr>
-              <td>Arousal</td>
-              <td>The level of the emotional response caused by the speaker.</td>
-            </tr>
-            <tr>
-              <td>Valence</td>
-              <td>The direction of the emotional response caused by the speaker (positive or negative)</td>
-            </tr>
-            <tr>
-              <td>Ethos</td>
-              <td>Persuasion based on the credibility or character of the speaker</td>
-            </tr>
-            <tr>
-              <td>Pathos</td>
-              <td>Persuasion based appealing to emotion</td>
-            </tr>
-            <tr>
-              <td>Logos</td>
-              <td>Persuasion based on a logical argument</td>
-            </tr>
-          </tbody>
-        </table>
+        answer all questins under all tabs. </strong> If you don't understand the meaning of a term there may be an info button that you can hover over for more information, otherwise we would like you to use your intuition to determine what the term means. For each term (such as the first term, happiness) answer the question with one of the levels available (in the case of hapiness it is "None" through "Extreme"). Then press "Segment now" and create segments using the slider under the video and the "Create Segements" button. Create segments that demonstrate why you chose your answer. Then explain in words why those segments demonstrate the answer you chose.
       </div>
     </div>
   </div>
@@ -159,8 +188,8 @@
  in Part 1</h2>
 
 <!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
-<div class="row" style="margin:1%;">
-  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="padding-right: 0px; background-color: white; width:50%; height: auto; display:inline-block; float:left;">
+<div style="width: 1250px; margin: 0 auto;">
+  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="padding-right: 0px; background-color: white; width:600px; max-width: 600px; min-width: 600px; height: auto; display:inline-block; float:left;">
     <div class="myIframe" frameborder="0" id="player" scrolling="no"></div>
 
     <div id="slider-range" style="display:inline-block; margin-left: 10px; width: 93%;"></div>
@@ -176,29 +205,64 @@
 
   </div>
 
-  <div class="col-lg-3" style="padding-right: 0px; padding-left: 0px;">
+  <div style="padding-right: 0px; padding-left: 0px; width:650px; max-width: 650px; min-width: 650px; display: inline-block;">
    <ul class="nav nav-tabs">
-      <li class="active"><a href="#emotion" data-toggle="tab">Sentiment</a></li>
+      <li class="active"><a href="#emotion" data-toggle="tab">Speaker Emotion</a></li>
+      <li><a href="#vemotion" data-toggle="tab">Viewer Emotion</a></li>
       <li><a href="#persuasion" data-toggle="tab">Persuasion</a></li>
       <li><a href="#structure" data-toggle="tab">Structure</a></li>
+      <li><a href="#opinion" data-toggle="tab">Viewer Opinion</a></li>
 
     </ul>
     <div class="tab-content">
     <div id="emotion" class="tab-pane active">
-    <div style="width: 100%; overflow-y: scroll; height:400px;">
+    <div style="width:650px; max-width: 650px; padding-left: 10px; padding-right: 10px; min-width: 650px; display: inline-block; overflow: scroll; height:500px;">
+    <h3> All the questions in this tab are about the speaker and not the viewer, Example: emotion is the emotion of the speaker not the emotion you are feeling</h3>
 
-    <div class="input-group" style="padding-top: 5px; padding-right: 25px">
-      <h4 style="display: inline; padding-right: 5px;">Happiness</h4> 
-      <div class="hiddeninfo">Info
-        <span class="hiddeninfotext">Happiness is displayed via smiling or laughing.</span>
-      </div>
+
+     <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Sentiment</h4> 
       <br>
-        <span class="happiness label none"><font color="black">None</font></span> 
-        <span class="happiness label weak"><font color="black">Weak</font></span> 
-        <span class="happiness label medium"><font color="black">Moderate</font></span> 
-        <span class="happiness label strong"><font color="black">Strong</font></span> 
-        <span class="happiness label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentHappiness" class="btn btn-default btn-sm">Segment Now</button>
+      <label for="comment">Choose the overall sentiment of the video: </label>
+      <br>
+        <span class="sent label none-rg"><font color="black">Strong Negative</font></span> 
+        <span class="sent label weak-rg"><font color="black">Weak Negative</font></span> 
+        <span class="sent label medium-rg"><font color="black">Neutral</font></span> 
+        <span class="sent label strong-rg"><font color="black">Weak Positive</font></span> 
+        <span class="sent label extreme-rg"><font color="black">Strong Positive</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSent" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="sent" name="sent" type="hidden" value="" />
+      <input id="sentSliders" name="sentSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of sentiment you selected (150-300
+          characters):</label>
+          <label id="commentSentWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="sentTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="sentText" name="sentText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Happiness</h4> 
+      <br>
+      <label for="comment">Choose the overall level of happiness of the video: </label>
+      <br>
+        <span class="happiness label none-g"><font color="black">None</font></span> 
+        <span class="happiness label weak-g"><font color="black">Weak</font></span> 
+        <span class="happiness label medium-g"><font color="black">Moderate</font></span> 
+        <span class="happiness label strong-g"><font color="black">Strong</font></span> 
+        <span class="happiness label extreme-g"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentHappiness" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="happiness" name="happiness" type="hidden" value="" />
       <input id="happinessSliders" name="happinessSliders" type="hidden" value="" />
@@ -217,18 +281,22 @@
     </div>
 
 
-    <div class="input-group">
-        <h4>Sadness</h4>
-        <span class="sadness label none"><font color="black">None</font></span> 
-        <span class="sadness label weak"><font color="black">Weak</font></span> 
-        <span class="sadness label medium"><font color="black">Moderate</font></span> 
-        <span class="sadness label strong"><font color="black">Strong</font></span> 
-        <span class="sadness label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSadness" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Sadness</h4> 
+      <br>
+      <label for="comment">Choose the overall level of sadness of the video: </label>
+      <br>
+        <span class="sadness label none-r"><font color="black">None</font></span> 
+        <span class="sadness label weak-r"><font color="black">Weak</font></span> 
+        <span class="sadness label medium-r"><font color="black">Moderate</font></span> 
+        <span class="sadness label strong-r"><font color="black">Strong</font></span> 
+        <span class="sadness label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSadness" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="sadness" name="sadness" type="hidden" value="" />
       <input id="sadnessSliders" name="sadnessSliders" type="hidden" value="" />
-
       <div class="form-group">
           <label for="comment"> Explain why this clip displays the level of sadness you selected (150-300
           characters):</label>
@@ -239,17 +307,23 @@
           id="sadnessTextArea"></textarea>
       </div> 
       <input class="form-control" id="sadnessText" name="sadnessText" type="hidden" required="" value=""/>
+
     
     </div>
 
- <div class="input-group">
-      <h4>Fear</h4>
-        <span class="fear label none"><font color="black">None</font></span> 
-        <span class="fear label weak"><font color="black">Weak</font></span> 
-        <span class="fear label medium"><font color="black">Moderate</font></span> 
-        <span class="fear label strong"><font color="black">Strong</font></span> 
-        <span class="fear label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFear" class="btn btn-default btn-sm">Segment Now</button>
+ <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Fear</h4> 
+      <br>
+      <label for="comment">Choose the overall level of fear of the video: </label>
+      <br>
+        <span class="fear label none-r"><font color="black">None</font></span> 
+        <span class="fear label weak-r"><font color="black">Weak</font></span> 
+        <span class="fear label medium-r"><font color="black">Moderate</font></span> 
+        <span class="fear label strong-r"><font color="black">Strong</font></span> 
+        <span class="fear label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFear" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="fear" name="fear" type="hidden" value="" />
       <input id="fearSliders" name="fearSliders" type="hidden" value="" />
@@ -267,14 +341,19 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Anger</h4>
-        <span class="anger label none"><font color="black">None</font></span> 
-        <span class="anger label weak"><font color="black">Weak</font></span> 
-        <span class="anger label medium"><font color="black">Moderate</font></span> 
-        <span class="anger label strong"><font color="black">Strong</font></span> 
-        <span class="anger label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAnger" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Anger</h4> 
+      <br>
+      <label for="comment">Choose the overall level of anger of the video: </label>
+      <br>
+        <span class="anger label none-r"><font color="black">None</font></span> 
+        <span class="anger label weak-r"><font color="black">Weak</font></span> 
+        <span class="anger label medium-r"><font color="black">Moderate</font></span> 
+        <span class="anger label strong-r"><font color="black">Strong</font></span> 
+        <span class="anger label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAnger" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="anger" name="anger" type="hidden" value="" />
       <input id="angerSliders" name="angerSliders" type="hidden" value="" />
@@ -292,14 +371,19 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Disgust</h4>
-        <span class="disgust label none"><font color="black">None</font></span> 
-        <span class="disgust label weak"><font color="black">Weak</font></span> 
-        <span class="disgust label medium"><font color="black">Moderate</font></span> 
-        <span class="disgust label strong"><font color="black">Strong</font></span> 
-        <span class="disgust label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentDisgust" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Disgust</h4> 
+      <br>
+      <label for="comment">Choose the overall level of disgust of the video: </label>
+      <br>
+        <span class="disgust label none-r"><font color="black">None</font></span> 
+        <span class="disgust label weak-r"><font color="black">Weak</font></span> 
+        <span class="disgust label medium-r"><font color="black">Moderate</font></span> 
+        <span class="disgust label strong-r"><font color="black">Strong</font></span> 
+        <span class="disgust label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentDisgust" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="disgust" name="disgust" type="hidden" value="" />
       <input id="disgustSliders" name="disgustSliders" type="hidden" value="" />
@@ -316,14 +400,20 @@
 
     
     </div>
-    <div class="input-group">
-      <h4>Surprise</h4>
-        <span class="surprise label none"><font color="black">None</font></span> 
-        <span class="surprise label weak"><font color="black">Weak</font></span> 
-        <span class="surprise label medium"><font color="black">Moderate</font></span> 
-        <span class="surprise label strong"><font color="black">Strong</font></span> 
-        <span class="surprise label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSurprise" class="btn btn-default btn-sm">Segment Now</button>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Surprise</h4> 
+      <br>
+      <label for="comment">Choose the overall level of surprise of the video: </label>
+      <br>
+        <span class="surprise label none-y"><font color="black">None</font></span> 
+        <span class="surprise label weak-y"><font color="black">Weak</font></span> 
+        <span class="surprise label medium-y"><font color="black">Moderate</font></span> 
+        <span class="surprise label strong-y"><font color="black">Strong</font></span> 
+        <span class="surprise label extreme-y"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSurprise" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="surprise" name="surprise" type="hidden" value="" />
       <input id="surpriseSliders" name="surpriseSliders" type="hidden" value="" />
@@ -340,37 +430,296 @@
 
     
     </div>
-
-     <div class="input-group" style="width: 50%">
-      <div><label>Arousal: 
-      <span id="arousalSliderVal"><font color="black">Neutral</font></span></label></div>
-      <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="arousalSlider" name="arousal" type="text" /></div>
-
-      <div class="input-group" style="width: 50%">
-        <div><label>Valence: 
-        <span id="valenceSliderVal"><font color="black">Neutral</font></span></label></div>
-        <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="valenceSlider" name="valence" type="text" />
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Arousal and Valence</h4>
+      <br>
+      <label for="comment"> How would you score the strength of all the emotions in this video? </label>
+      <br>
       </div>
+       <div class="input-group" style="width: 70%">
+        <div><label>Arousal: 
+        <span id="arousalSliderVal"><font color="black">Neutral - </font></span>
+        <span id="arousalPercentage"><font color="black">50%</font></span>
+        </label>
+        </div>
+        <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="arousalSlider" name="arousal" type="text" />
+      </div>
+      <label for="comment">How Positive or negative are the emotions expressed in this video?</label>
+        <div class="input-group" style="width: 70%">
+          <div><label>Valence: 
+          <span id="valenceSliderVal"><font color="black">Neutral - </font></span>
+          <span id="valencePercentage"><font color="black">50%</font></span>
+          </label></div>
+            <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="valenceSlider" name="valence" type="text" />
+          </div>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAr_va" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="ar_va" name="ar_va" type="hidden" value="" />
+      <input id="ar_vaSliders" name="ar_vaSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the levels of arousal and valence you selected (150-300
+          characters):</label>
+          <label id="commentAr_vaWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="ar_vaTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="ar_vaText" name="ar_vaText" type="hidden" required="" value=""/>
+
+    
     </div>
+    </div>
+<div id="vemotion" class="tab-pane">
+    <div style="width:650px; max-width: 650px; padding-left: 10px; padding-right: 10px; min-width: 650px; display: inline-block; overflow-y: scroll;  height:500px;">
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Happiness</h4> 
+      <br>
+      <label for="comment">Choose the overall level of happiness you felt while whatching the video: </label>
+      <br>
+        <span class="vhappiness label none-g"><font color="black">None</font></span> 
+        <span class="vhappiness label weak-g"><font color="black">Weak</font></span> 
+        <span class="vhappiness label medium-g"><font color="black">Moderate</font></span> 
+        <span class="vhappiness label strong-g"><font color="black">Strong</font></span> 
+        <span class="vhappiness label extreme-g"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVhappiness" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="vhappiness" name="vhappiness" type="hidden" value="" />
+      <input id="vhappinessSliders" name="vhappinessSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of vhappiness you selected (150-300
+          characters):</label>
+          <label id="commentVhappinessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vhappinessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vhappinessText" name="vhappinessText" type="hidden" required="" value=""/>
+
+    
     </div>
 
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Sadness</h4> 
+      <br>
+      <label for="comment">Choose the overall level of sadness you felt while whatching the video: </label>
+      <br>
+        <span class="vsadness label none-r"><font color="black">None</font></span> 
+        <span class="vsadness label weak-r"><font color="black">Weak</font></span> 
+        <span class="vsadness label medium-r"><font color="black">Moderate</font></span> 
+        <span class="vsadness label strong-r"><font color="black">Strong</font></span> 
+        <span class="vsadness label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVsadness" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="vsadness" name="vsadness" type="hidden" value="" />
+      <input id="vsadnessSliders" name="vsadnessSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of vsadness you selected (150-300
+          characters):</label>
+          <label id="commentVsadnessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vsadnessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vsadnessText" name="vsadnessText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+ <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Fear</h4> 
+      <br>
+      <label for="comment">Choose the overall level of fear you felt while whatching the video:</label>
+      <br>
+        <span class="vfear label none-r"><font color="black">None</font></span> 
+        <span class="vfear label weak-r"><font color="black">Weak</font></span> 
+        <span class="vfear label medium-r"><font color="black">Moderate</font></span> 
+        <span class="vfear label strong-r"><font color="black">Strong</font></span> 
+        <span class="vfear label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVfear" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="vfear" name="vfear" type="hidden" value="" />
+      <input id="vfearSliders" name="vfearSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of vfear you selected (150-300
+          characters):</label>
+          <label id="commentVfearWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vfearTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vfearText" name="vfearText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Anger</h4> 
+      <br>
+      <label for="comment">Choose the overall level of anger you felt while whatching the video:</label>
+      <br>
+        <span class="vanger label none-r"><font color="black">None</font></span> 
+        <span class="vanger label weak-r"><font color="black">Weak</font></span> 
+        <span class="vanger label medium-r"><font color="black">Moderate</font></span> 
+        <span class="vanger label strong-r"><font color="black">Strong</font></span> 
+        <span class="vanger label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVanger" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="vanger" name="vanger" type="hidden" value="" />
+      <input id="vangerSliders" name="vangerSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of vanger you selected (150-300
+          characters):</label>
+          <label id="commentVangerWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vangerTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vangerText" name="vangerText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Disgust</h4> 
+      <br>
+      <label for="comment">Choose the overall level of disgust you felt while whatching the video:</label>
+      <br>
+        <span class="vdisgust label none-r"><font color="black">None</font></span> 
+        <span class="vdisgust label weak-r"><font color="black">Weak</font></span> 
+        <span class="vdisgust label medium-r"><font color="black">Moderate</font></span> 
+        <span class="vdisgust label strong-r"><font color="black">Strong</font></span> 
+        <span class="vdisgust label extreme-r"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVdisgust" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="vdisgust" name="vdisgust" type="hidden" value="" />
+      <input id="vdisgustSliders" name="vdisgustSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of vdisgust you selected (150-300
+          characters):</label>
+          <label id="commentVdisgustWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vdisgustTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vdisgustText" name="vdisgustText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Surprise</h4> 
+      <br>
+      <label for="comment">Choose the overall level of surprise you felt while whatching the video:</label>
+      <br>
+        <span class="vsurprise label none-y"><font color="black">None</font></span> 
+        <span class="vsurprise label weak-y"><font color="black">Weak</font></span> 
+        <span class="vsurprise label medium-y"><font color="black">Moderate</font></span> 
+        <span class="vsurprise label strong-y"><font color="black">Strong</font></span> 
+        <span class="vsurprise label extreme-y"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVsurprise" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="vsurprise" name="vsurprise" type="hidden" value="" />
+      <input id="vsurpriseSliders" name="vsurpriseSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of vsurprise you selected (150-300
+          characters):</label>
+          <label id="commentVsurpriseWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vsurpriseTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vsurpriseText" name="vsurpriseText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Arousal and Valence</h4>
+      <div class="hiddeninfo">Info
+        <span class="hiddeninfotext">Posture is displayed via smiling or laughing.</span>
+      </div>
+      <br>
+      <label for="comment">Choose the overall levels of arousal and valence you felt while whatching the video:</label>
+      <br>
+      </div>
+       <div class="input-group" style="width: 70%">
+        <div><label>Arousal: 
+        <span id="varousalSliderVal"><font color="black">Neutral - </font></span>
+        <span id="varousalPercentage"><font color="black">50%</font></span>
+        </label>
+        </div>
+        <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="varousalSlider" name="varousal" type="text" />
+      </div>
+        <div class="input-group" style="width: 70%">
+          <div><label>Valence: 
+          <span id="vvalenceSliderVal"><font color="black">Neutral - </font></span>
+          <span id="vvalencePercentage"><font color="black">50%</font></span>
+          </label></div>
+            <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="vvalenceSlider" name="vvalence" type="text" />
+          </div>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentVar_va" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="var_va" name="var_va" type="hidden" value="" />
+      <input id="var_vaSliders" name="var_vaSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the levels of arousal and valence you selected (150-300
+          characters):</label>
+          <label id="commentVar_vaWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="var_vaTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="var_vaText" name="var_vaText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    </div>
 
 
   <div id="persuasion" class="tab-pane">
 
-    <div class="col-lg-4" style="width: 100%; overflow-y: scroll; height:400px;">
-    <div class="input-group">
-        <h4>Persuasion</h4>
-        <span class="persuasion label none"><font color="black">None</font></span> 
-        <span class="persuasion label weak"><font color="black">Weak</font></span> 
-        <span class="persuasion label medium"><font color="black">Moderate</font></span> 
-        <span class="persuasion label strong"><font color="black">Strong</font></span> 
-        <span class="persuasion label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPersuasion" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="col-lg-4" style="width: 100%; overflow-y: scroll; height:500px;">
+   <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Persuasion</h4> 
+      <br>
+      <label for="comment">How persuasive was the video?</label>
+      <br>
+        <span class="persuasion label none-org"><font color="black">None</font></span> 
+        <span class="persuasion label weak-org"><font color="black">Weak</font></span> 
+        <span class="persuasion label medium-org"><font color="black">Moderate</font></span> 
+        <span class="persuasion label strong-org"><font color="black">Strong</font></span> 
+        <span class="persuasion label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPersuasion" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="persuasion" name="persuasion" type="hidden" value="" />
       <input id="persuasionSliders" name="persuasionSliders" type="hidden" value="" />
-
       <div class="form-group">
           <label for="comment"> Explain why this clip displays the level of persuasion you selected (150-300
           characters):</label>
@@ -381,21 +730,26 @@
           id="persuasionTextArea"></textarea>
       </div> 
       <input class="form-control" id="persuasionText" name="persuasionText" type="hidden" required="" value=""/>
+
     
     </div>
 
-    <div class="input-group">
-        <h4>Logos</h4>
-        <span class="logos label none"><font color="black">None</font></span> 
-        <span class="logos label weak"><font color="black">Weak</font></span> 
-        <span class="logos label medium"><font color="black">Moderate</font></span> 
-        <span class="logos label strong"><font color="black">Strong</font></span> 
-        <span class="logos label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentLogos" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Logos</h4> 
+      <br>
+      <label for="comment">How logical are the arguments presented in this video? </label>
+      <br>
+        <span class="logos label none-org"><font color="black">None</font></span> 
+        <span class="logos label weak-org"><font color="black">Weak</font></span> 
+        <span class="logos label medium-org"><font color="black">Moderate</font></span> 
+        <span class="logos label strong-org"><font color="black">Strong</font></span> 
+        <span class="logos label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentLogos" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="logos" name="logos" type="hidden" value="" />
       <input id="logosSliders" name="logosSliders" type="hidden" value="" />
-
       <div class="form-group">
           <label for="comment"> Explain why this clip displays the level of logos you selected (150-300
           characters):</label>
@@ -406,17 +760,23 @@
           id="logosTextArea"></textarea>
       </div> 
       <input class="form-control" id="logosText" name="logosText" type="hidden" required="" value=""/>
+
     
     </div>
 
-    <div class="input-group">
-      <h4>Pathos</h4>
-        <span class="pathos label none"><font color="black">None</font></span> 
-        <span class="pathos label weak"><font color="black">Weak</font></span> 
-        <span class="pathos label medium"><font color="black">Moderate</font></span> 
-        <span class="pathos label strong"><font color="black">Strong</font></span> 
-        <span class="pathos label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPathos" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Pathos</h4> 
+      <br>
+      <label for="comment">How much emotionally provocative content does the speaker use to make their argument? </label>
+      <br>
+        <span class="pathos label none-org"><font color="black">None</font></span> 
+        <span class="pathos label weak-org"><font color="black">Weak</font></span> 
+        <span class="pathos label medium-org"><font color="black">Moderate</font></span> 
+        <span class="pathos label strong-org"><font color="black">Strong</font></span> 
+        <span class="pathos label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPathos" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="pathos" name="pathos" type="hidden" value="" />
       <input id="pathosSliders" name="pathosSliders" type="hidden" value="" />
@@ -434,14 +794,19 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Ethos</h4>
-        <span class="ethos label none"><font color="black">None</font></span> 
-        <span class="ethos label weak"><font color="black">Weak</font></span> 
-        <span class="ethos label medium"><font color="black">Moderate</font></span> 
-        <span class="ethos label strong"><font color="black">Strong</font></span> 
-        <span class="ethos label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentEthos" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Ethos</h4> 
+      <br>
+      <label for="comment">Does the speaker portray themself as credible or trustworthy? </label>
+      <br>
+        <span class="ethos label none-org"><font color="black">None</font></span> 
+        <span class="ethos label weak-org"><font color="black">Weak</font></span> 
+        <span class="ethos label medium-org"><font color="black">Moderate</font></span> 
+        <span class="ethos label strong-org"><font color="black">Strong</font></span> 
+        <span class="ethos label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentEthos" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="ethos" name="ethos" type="hidden" value="" />
       <input id="ethosSliders" name="ethosSliders" type="hidden" value="" />
@@ -459,14 +824,19 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Aggressiveness</h4>
-        <span class="aggressiveness label none"><font color="black">None</font></span> 
-        <span class="aggressiveness label weak"><font color="black">Weak</font></span> 
-        <span class="aggressiveness label medium"><font color="black">Moderate</font></span> 
-        <span class="aggressiveness label strong"><font color="black">Strong</font></span> 
-        <span class="aggressiveness label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAggressiveness" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Aggressiveness</h4> 
+      <br>
+      <label for="comment">Is the speaker pushy while delivering the argument?</label>
+      <br>
+        <span class="aggressiveness label none-org"><font color="black">None</font></span> 
+        <span class="aggressiveness label weak-org"><font color="black">Weak</font></span> 
+        <span class="aggressiveness label medium-org"><font color="black">Moderate</font></span> 
+        <span class="aggressiveness label strong-org"><font color="black">Strong</font></span> 
+        <span class="aggressiveness label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentAggressiveness" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="aggressiveness" name="aggressiveness" type="hidden" value="" />
       <input id="aggressivenessSliders" name="aggressivenessSliders" type="hidden" value="" />
@@ -484,14 +854,19 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Motivating</h4>
-        <span class="motivating label none"><font color="black">None</font></span> 
-        <span class="motivating label weak"><font color="black">Weak</font></span> 
-        <span class="motivating label medium"><font color="black">Moderate</font></span> 
-        <span class="motivating label strong"><font color="black">Strong</font></span> 
-        <span class="motivating label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentMotivating" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Motivating</h4> 
+      <br>
+      <label for="comment">How strongly would you score the speaker's attempts to motivate you? </label>
+      <br>
+        <span class="motivating label none-org"><font color="black">None</font></span> 
+        <span class="motivating label weak-org"><font color="black">Weak</font></span> 
+        <span class="motivating label medium-org"><font color="black">Moderate</font></span> 
+        <span class="motivating label strong-org"><font color="black">Strong</font></span> 
+        <span class="motivating label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentMotivating" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="motivating" name="motivating" type="hidden" value="" />
       <input id="motivatingSliders" name="motivatingSliders" type="hidden" value="" />
@@ -509,74 +884,92 @@
     
     </div>
 
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Tone</h4> 
+      <div class="hiddeninfo">Info
+        <span class="hiddeninfotext">How clear is the speaker's voice? Does the speaker's tone fit the content the speaker is delivering?</span>
+      </div>
+      <br>
+      <label for="comment">How would you score the tone used in the speech? </label>
+      <br>
+        <span class="tone label none-org"><font color="black">Very Weak</font></span> 
+        <span class="tone label weak-org"><font color="black">Weak</font></span> 
+        <span class="tone label medium-org"><font color="black">Moderate</font></span> 
+        <span class="tone label strong-org"><font color="black">Strong</font></span> 
+        <span class="tone label extreme-org"><font color="black">Very Strong</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentTone" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="tone" name="tone" type="hidden" value="" />
+      <input id="toneSliders" name="toneSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of tone you selected (150-300
+          characters):</label>
+          <label id="commentToneWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="toneTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="toneText" name="toneText" type="hidden" required="" value=""/>
+
+    
     </div>
+
+   <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Confidence</h4> 
+      <br>
+      <label for="comment">How much confidence does the speaker display in this speech? </label>
+      <br>
+        <span class="confident label none-org"><font color="black">None</font></span> 
+        <span class="confident label weak-org"><font color="black">Weak</font></span> 
+        <span class="confident label medium-org"><font color="black">Moderate</font></span> 
+        <span class="confident label strong-org"><font color="black">Strong</font></span> 
+        <span class="confident label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentConfident" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="confident" name="confident" type="hidden" value="" />
+      <input id="confidentSliders" name="confidentSliders" type="hidden" value="" />
+      <div class="form-group">
+          <label for="comment"> Explain why this clip displays the level of confident you selected (150-300
+          characters):</label>
+          <label id="commentConfidentWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="confidentTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="confidentText" name="confidentText" type="hidden" required="" value=""/>
+
+    
     </div>
+  </div>
+  </div>
     <div id="structure" class="tab-pane">
 
-    <div class="col-lg-4" style="width: 100%; overflow-y: scroll; height:400px;">
-    <div class="input-group">
-        <h4>Focus</h4>
-        <span class="focus label none"><font color="black">None</font></span> 
-        <span class="focus label weak"><font color="black">Weak</font></span> 
-        <span class="focus label medium"><font color="black">Moderate</font></span> 
-        <span class="focus label strong"><font color="black">Strong</font></span> 
-        <span class="focus label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFocus" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="col-lg-4" style="width: 100%; overflow-y: scroll; height:500px;">
 
-      <input id="focus" name="focus" type="hidden" value="" />
-      <input id="focusSliders" name="focusSliders" type="hidden" value="" />
-
-      <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of focus you selected (150-300
-          characters):</label>
-          <label id="commentFocusWarning" style="color: red"
-          for="comment">Under 150
-           characters used</label>
-          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
-          id="focusTextArea"></textarea>
-      </div> 
-      <input class="form-control" id="focusText" name="focusText" type="hidden" required="" value=""/>
-    
-    </div>
-
-    <div class="input-group">
-        <h4>Well Written Script</h4>
-        <span class="script label none"><font color="black">None</font></span> 
-        <span class="script label weak"><font color="black">Weak</font></span> 
-        <span class="script label medium"><font color="black">Moderate</font></span> 
-        <span class="script label strong"><font color="black">Strong</font></span> 
-        <span class="script label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentScript" class="btn btn-default btn-sm">Segment Now</button>
-
-      <input id="script" name="script" type="hidden" value="" />
-      <input id="scriptSliders" name="scriptSliders" type="hidden" value="" />
-
-      <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of script you selected (150-300
-          characters):</label>
-          <label id="commentScriptWarning" style="color: red"
-          for="comment">Under 150
-           characters used</label>
-          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
-          id="scriptTextArea"></textarea>
-      </div> 
-      <input class="form-control" id="scriptText" name="scriptText" type="hidden" required="" value=""/>
-    
-    </div>
-
-    <div class="input-group">
-      <h4>Ice Breaker</h4>
-        <span class="ice label none"><font color="black">None</font></span> 
-        <span class="ice label weak"><font color="black">Weak</font></span> 
-        <span class="ice label medium"><font color="black">Moderate</font></span> 
-        <span class="ice label strong"><font color="black">Strong</font></span> 
-        <span class="ice label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentIce" class="btn btn-default btn-sm">Segment Now</button>
+   <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Introduction and Conclusion</h4> 
+      <br>
+      <label for="comment">Rate the overall quality of the icebreak/introduction and signoff/conclusion of the speech: </label>
+      <br>
+        <span class="ice label none-org"><font color="black">None</font></span> 
+        <span class="ice label weak-org"><font color="black">Weak</font></span> 
+        <span class="ice label medium-org"><font color="black">Moderate</font></span> 
+        <span class="ice label strong-org"><font color="black">Strong</font></span> 
+        <span class="ice label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentIce" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="ice" name="ice" type="hidden" value="" />
       <input id="iceSliders" name="iceSliders" type="hidden" value="" />
       <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of ice you selected (150-300
+          <label for="comment"> Explain why this clip displays the level you selected (150-300
           characters):</label>
           <label id="commentIceWarning" style="color: red"
           for="comment">Under 150
@@ -589,44 +982,24 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Quality of outro/signoff</h4>
-        <span class="signoff label none"><font color="black">None</font></span> 
-        <span class="signoff label weak"><font color="black">Weak</font></span> 
-        <span class="signoff label medium"><font color="black">Moderate</font></span> 
-        <span class="signoff label strong"><font color="black">Strong</font></span> 
-        <span class="signoff label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSignoff" class="btn btn-default btn-sm">Segment Now</button>
-
-      <input id="signoff" name="signoff" type="hidden" value="" />
-      <input id="signoffSliders" name="signoffSliders" type="hidden" value="" />
-      <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of signoff you selected (150-300
-          characters):</label>
-          <label id="commentSignoffWarning" style="color: red"
-          for="comment">Under 150
-           characters used</label>
-          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
-          id="signoffTextArea"></textarea>
-      </div> 
-      <input class="form-control" id="signoffText" name="signoffText" type="hidden" required="" value=""/>
-
-    
-    </div>
-
-    <div class="input-group">
-      <h4>Meaningful Gestures</h4>
-        <span class="gestures label none"><font color="black">None</font></span> 
-        <span class="gestures label weak"><font color="black">Weak</font></span> 
-        <span class="gestures label medium"><font color="black">Moderate</font></span> 
-        <span class="gestures label strong"><font color="black">Strong</font></span> 
-        <span class="gestures label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentGestures" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Gestures</h4> 
+      <br>
+      <label for="comment">How relevant to the speech are the speaker's body and facial gestures? </label>
+      <br>
+        <span class="gestures label none-org"><font color="black">None</font></span> 
+        <span class="gestures label weak-org"><font color="black">Weak</font></span> 
+        <span class="gestures label medium-org"><font color="black">Moderate</font></span> 
+        <span class="gestures label strong-org"><font color="black">Strong</font></span> 
+        <span class="gestures label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentGestures" class="btn btn-default btn-sm">Segment Now</button>
 
       <input id="gestures" name="gestures" type="hidden" value="" />
       <input id="gesturesSliders" name="gesturesSliders" type="hidden" value="" />
       <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of gestures you selected (150-300
+          <label for="comment"> Explain why this clip displays the level you selected (150-300
           characters):</label>
           <label id="commentGesturesWarning" style="color: red"
           for="comment">Under 150
@@ -639,27 +1012,35 @@
     
     </div>
 
-    <div class="input-group">
-      <h4>Posture</h4>
-        <span class="posture label none"><font color="black">None</font></span> 
-        <span class="posture label weak"><font color="black">Weak</font></span> 
-        <span class="posture label medium"><font color="black">Moderate</font></span> 
-        <span class="posture label strong"><font color="black">Strong</font></span> 
-        <span class="posture label extreme"><font color="black">Extreme</font></span>
-        <button style="margin-left: 5px; color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentPosture" class="btn btn-default btn-sm">Segment Now</button>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Backdground and Equipment</h4> 
+      <div class="hiddeninfo">Info
+        <span class="hiddeninfotext">This includes the entirety of the area behind the speaker and the recording equipment used such as lights, the camera, and audio recording equipment.</span>
+      </div>
+      <br>
+      <label for="comment">Rate the Background and setup of the speaker including recording equipment: </label>
+      <br>
+        <span class="setup label none-org"><font color="black">None</font></span> 
+        <span class="setup label weak-org"><font color="black">Weak</font></span> 
+        <span class="setup label medium-org"><font color="black">Moderate</font></span> 
+        <span class="setup label strong-org"><font color="black">Strong</font></span> 
+        <span class="setup label extreme-org"><font color="black">Extreme</font></span>
+      <br>
+      <label for="comment" style="padding-top: 5px;">Select the segments of the video using the slider to the left that demonstrate why you chose your answer: </label>
+        <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentSetup" class="btn btn-default btn-sm">Segment Now</button>
 
-      <input id="posture" name="posture" type="hidden" value="" />
-      <input id="postureSliders" name="postureSliders" type="hidden" value="" />
+      <input id="setup" name="setup" type="hidden" value="" />
+      <input id="setupSliders" name="setupSliders" type="hidden" value="" />
       <div class="form-group">
-          <label for="comment"> Explain why this clip displays the level of posture you selected (150-300
+          <label for="comment"> Explain why this clip displays the level you selected (150-300
           characters):</label>
-          <label id="commentPostureWarning" style="color: red"
+          <label id="commentSetupWarning" style="color: red"
           for="comment">Under 150
            characters used</label>
           <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
-          id="postureTextArea"></textarea>
+          id="setupTextArea"></textarea>
       </div> 
-      <input class="form-control" id="postureText" name="postureText" type="hidden" required="" value=""/>
+      <input class="form-control" id="setupText" name="setupText" type="hidden" required="" value=""/>
 
     
     </div>
@@ -667,6 +1048,65 @@
     </div>
 
      </div>
+     <div id="opinion" class="tab-pane">
+
+    <div class="col-lg-4" style="width: 100%; overflow-y: scroll; height:500px;">
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Flaws</h4>
+      <br>
+      <label for="comment"> What were the fatal flaws of the speech? Please describe them below: </label>
+
+
+    <div class="form-group" style="padding-top: 5px;">
+          <label id="commentFlawsWarning" style="color: red"
+          for="comment">Under 150 characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="flawsTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="flawsText" name="flawsText" type="hidden" required="" value=""/>
+
+      <label for="comment"> Segment the parts of the speech that demonstrate the fatal flaws: </label>
+      <br>
+
+      <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentFlaws" class="btn btn-default btn-sm">Segment Now</button>
+
+      <input id="flaws" name="flaws" type="hidden" value="" />
+      <input id="flawsSliders" name="flawsSliders" type="hidden" value="" />
+
+
+
+      </div>
+
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Speaker Improvement</h4>
+      <br>
+      <label for="comment"> How could the speaker improve the speech? Please describe below: </label>
+
+    <div class="form-group" style="padding-top: 5px;">
+          <label id="commentImproveWarning" style="color: red"
+          for="comment">Under 150 characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="improveTextArea"></textarea>
+    </div> 
+      <input class="form-control" id="improveText" name="improveText" type="hidden" required="" value=""/>
+
+      <label for="comment"> Segment the parts of the speech that demonstrate where the speaker could improve: </label>
+
+      <button style=" color:#FFF; background-color:#5CB85C; border-color: #4CAE4C;" id="segmentImprove" class="btn btn-default btn-sm">Segment Now</button>
+    
+      <input id="improve" name="improve" type="hidden" value="" />
+      <input id="improveSliders" name="improveSliders" type="hidden" value="" />
+
+
+      </div>
+
+
+
+
+    </div>
+    </div>
+
      </div>
     <!-- End Categorization Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" /><!-- Open internal style sheet -->
@@ -683,11 +1123,19 @@
 
   var label_fors = [
     "happiness", "sadness", "fear", "anger", "disgust", "surprise",
+    "vhappiness", "vsadness", "vfear", "vanger", "vdisgust", "vsurprise",
     "persuasion", "logos", "pathos", "ethos", "aggressiveness", "motivating",
-    "focus", "script", "ice", "signoff", "gestures", "posture"
+    "tone", "confident", "ice", "gestures", "setup","ar_va","var_va","flaws","improve","sent"
     ];
 
-  var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  var label_buttons = [
+    "happiness", "sadness", "fear", "anger", "disgust", "surprise",
+    "vhappiness", "vsadness", "vfear", "vanger", "vdisgust", "vsurprise",
+    "persuasion", "logos", "pathos", "ethos", "aggressiveness", "motivating",
+    "tone", "confident", "ice", "gestures", "setup","sent"
+    ];
+
+  var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var currentClipLabel = -1;
 
   function add(identity,min,max,index) {
@@ -920,6 +1368,22 @@
         $('#createNewSegment').prop('disabled', false);
 
         if(index == currentClipLabel){
+          for(j = 0; j < label_fors.length; j++){
+            var currentLabel = label_fors[j];
+            var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+            var sliderBaseID = currentLabel + "Slider";
+            var labelSelector = document.getElementById(labelSelectorID);
+            labelSelector.style.backgroundColor = "#80ffaa";
+          }
+          var currentLabel = label_fors[currentClipLabel];
+          var sliderBaseID = currentLabel + "Slider";
+          for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
+            sliderID = sliderBaseID + k.toString();
+            lightRemove(currentClipLabel,(k.toString()));
+          }
+          currentClipLabel = -1;
+          $('#createNewSegment').prop('disabled', true);
+          console.log("wtf");
           return;
         }
         //set colors to greyed out
@@ -1003,40 +1467,42 @@
         }
       });
       // end highlight
-      function changeSliderVal(slideEvt,sliderVal){
+      function changeSliderVal(slideEvt,sliderVal,percVal){
+        $(percVal).text(slideEvt.value + "%");
         if(slideEvt.value <= 20){ 
-          $(sliderVal).text("Strong Negative");
+          $(sliderVal).text("Strong Negative - ");
         }
         else if(slideEvt.value <= 40){ 
-          $(sliderVal).text("Medium Negative");
+          $(sliderVal).text("Medium Negative - ");
         }
         else if(slideEvt.value <= 60){ 
-          $(sliderVal).text("Neutral");
+          $(sliderVal).text("Neutral - ");
         }
         else if(slideEvt.value <= 80){ 
-          $(sliderVal).text("Medium Positive");
+          $(sliderVal).text("Medium Positive - ");
         }
         else{ 
-          $(sliderVal).text("Strong Positive");
+          $(sliderVal).text("Strong Positive - ");
         }
 
       };
 
-      function changeSliderAro(slideEvt,sliderVal){
+      function changeSliderAro(slideEvt,sliderVal,percVal){
+        $(percVal).text(slideEvt.value + "%");
         if(slideEvt.value <= 20){ 
-          $(sliderVal).text("Low");
+          $(sliderVal).text("Low - ");
         }
         else if(slideEvt.value <= 40){ 
-          $(sliderVal).text("Medium Low");
+          $(sliderVal).text("Medium Low - ");
         }
         else if(slideEvt.value <= 60){ 
-          $(sliderVal).text("Neutral");
+          $(sliderVal).text("Neutral - ");
         }
         else if(slideEvt.value <= 80){ 
-          $(sliderVal).text("Medium High");
+          $(sliderVal).text("Medium High - ");
         }
         else{ 
-          $(sliderVal).text("High");
+          $(sliderVal).text("High - ");
         }
 
       };
@@ -1059,11 +1525,20 @@
 
     $('#arousalSlider').bootstrapSlider();
     $('#arousalSlider').on("slide", function(slideEvt){
-      changeSliderAro(slideEvt,"#arousalSliderVal");
+      changeSliderAro(slideEvt,"#arousalSliderVal", "#arousalPercentage");
     })
     $('#valenceSlider').bootstrapSlider();
     $('#valenceSlider').on("slide", function(slideEvt){
-      changeSliderVal(slideEvt,"#valenceSliderVal");
+      changeSliderVal(slideEvt,"#valenceSliderVal" , "#valencePercentage");
+    })
+
+    $('#varousalSlider').bootstrapSlider();
+    $('#varousalSlider').on("slide", function(slideEvt){
+      changeSliderAro(slideEvt,"#varousalSliderVal", "#varousalPercentage");
+    })
+    $('#vvalenceSlider').bootstrapSlider();
+    $('#vvalenceSlider').on("slide", function(slideEvt){
+      changeSliderVal(slideEvt,"#vvalenceSliderVal" , "#vvalencePercentage");
     })
     
 
@@ -1075,7 +1550,7 @@
         var classes = element.className.split(' ');
         var label_for = "";
         for (var c in classes) {
-          if (label_fors.indexOf(classes[c]) >= 0) {
+          if (label_buttons.indexOf(classes[c]) >= 0) {
             label_for = classes[c];
           }
         }
