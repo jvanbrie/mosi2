@@ -1,0 +1,950 @@
+<!-- HIT template: Sentiment-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
+<!DOCTYPE html>
+<html lang="en">
+
+<style type="text/css">
+.label {
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  color: black;
+}
+.selected {
+  background-color: #fff59d !important;
+}
+
+.nred-green {
+  background-color: #ff0000;
+}
+.wred-green {
+  background-color: #ff9999;
+}
+.mred-green {
+  background-color: white;
+}
+.sred-green {
+  background-color: #4dff4d;
+}
+.ered-green {
+  background-color: #008000;
+}
+
+.nyellow {
+  background-color: white;
+}
+.wyellow {
+  background-color: #ffd280;
+}
+.myellow {
+  background-color: #ffc14d;
+}
+.syellow {
+  background-color: #ffaf1a;
+}
+.eyellow {
+  background-color: #e69500;
+}
+
+.nred {
+  background-color: white;
+}
+.wred {
+  background-color: #ffcccc;
+}
+.mred {
+  background-color: #ff9999;
+}
+.sred {
+  background-color: #ff4d4d;
+}
+.ered {
+  background-color: #ff0000;
+}
+
+.ngreen {
+  background-color: white;
+}
+.wgreen {
+  background-color: #99ff99;
+}
+.mgreen {
+  background-color: #4dff4d;
+}
+.sgreen {
+  background-color: #00cc00;
+}
+.egreen {
+  background-color: #008000;
+}
+
+.norg {
+  background-color: white;
+}
+.worg {
+  background-color: #dfdfdf;
+}
+.morg {
+  background-color: #c1c1c1;
+}
+.sorg {
+  background-color: #8d8d8d;
+}
+.eorg {
+  background-color: #6f6f6f;
+}
+
+
+#selectClip {
+    margin-left: 10px !important;
+}
+#selectClip .slider-selection {
+  background: yellow;
+}
+</style>
+   <style type="text/css">
+    #collapseTrigger{
+      color:#fff;
+      display: block;
+      text-decoration: none;
+    }
+    #submitButton{
+      white-space: normal;
+    }
+    #instructionBody table{
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    #instructionBody table caption{
+      text-align: left;
+      padding: 0 0 5px 0;
+    }
+    #Inputs{
+      display: block;
+      margin-top: 10px;
+    }
+    .content{
+      margin-bottom: 15px;
+    }
+    .radio:first-of-type{
+      margin-top: -5px;
+    }
+
+    .hiddeninfo {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+    }
+
+    .hiddeninfo .hiddeninfotext {
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the hiddeninfo */
+        position: absolute;
+        z-index: 1;
+    }
+
+    .hiddeninfo:hover .hiddeninfotext {
+        visibility: visible;
+    }
+
+  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOSI2 Annotator</title>
+
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" rel="stylesheet" /><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4=" crossorigin="anonymous"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+
+<section class="container" id="Sentiment"><!-- Instructions (collapsible) -->
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <div class="panel panel-primary"><!-- WARNING: the ids "collapseTrigger"
+      and "instructionBody" are being used to enable expand/collapse feature
+      --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Video Analysis Instructions</strong> 
+      <span class="collapse-text">(Click to expand)</span> </a>
+        <div class="panel-body" id="instructionBody"><strong>You must
+        answer all questins. </strong> If you don't understand the meaning of a term we would like you to use your intuition to determine what the term means. For each term (such as the first term, happiness) answer the question with one of the levels available (in the case of hapiness it is "None" through "Extreme"). Make sure you are answering the questions with respect to how <strong>YOU</strong> feel. Then explain in words why you chose your answer.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- End instructions --><!-- Categorization Layout -->
+
+<h2 style="color: red; margin: 2%;" id="warning">You Must Answer all Questions
+ in Part 1</h2>
+
+<!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
+<div style="width: 1250px; margin: 0 auto;">
+  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="padding-right: 0px; background-color: white; width:600px; max-width: 600px; min-width: 600px; height: auto; display:inline-block; float:left;">
+    <div class="myIframe" frameborder="0" id="player" scrolling="no"></div>
+
+
+  </div>
+
+  <div style="padding-right: 0px; padding-left: 0px; width:650px; max-width: 650px; min-width: 650px; display: inline-block;">
+<div id="vemotion" class="tab-pane">
+    <div style="width:650px; max-width: 650px; padding-left: 10px; padding-right: 10px; min-width: 650px; display: inline-block; overflow-y: scroll;  height:500px;">
+
+    <h3 style="color: red"> All of these questions are about how the video makes you feel, NOT about how the speaker feels.</h3>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Happiness</h4> 
+      <br>
+      <label for="comment">Choose the overall level of happiness you felt while watching the video: </label>
+      <br>
+        <span class="vhappiness label none ngreen"><font color="black">None</font></span> 
+        <span class="vhappiness label weak wgreen"><font color="black">Weak</font></span> 
+        <span class="vhappiness label medium mgreen"><font color="black">Moderate</font></span> 
+        <span class="vhappiness label strong sgreen"><font color="black">Strong</font></span> 
+        <span class="vhappiness label extreme egreen"><font color="black">Extreme</font></span>
+      <br>
+
+      <input id="vhappiness" name="vhappiness" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment"> Explain what made you feel this way (150-300
+          characters):</label>
+          <label id="commentVhappinessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vhappinessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vhappinessText" name="vhappinessText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Sadness</h4> 
+      <br>
+      <label for="comment">Choose the overall level of sadness you felt while watching the video: </label>
+      <br>
+        <span class="vsadness label none nred"><font color="black">None</font></span> 
+        <span class="vsadness label weak wred"><font color="black">Weak</font></span> 
+        <span class="vsadness label medium mred"><font color="black">Moderate</font></span> 
+        <span class="vsadness label strong sred"><font color="black">Strong</font></span> 
+        <span class="vsadness label extreme ered"><font color="black">Extreme</font></span>
+      <br>
+
+      <input id="vsadness" name="vsadness" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment">Explain what made you feel this way (150-300
+          characters):</label>
+          <label id="commentVsadnessWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vsadnessTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vsadnessText" name="vsadnessText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+ <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Fear</h4> 
+      <br>
+      <label for="comment">Choose the overall level of fear you felt while watching the video:</label>
+      <br>
+        <span class="vfear label none nred"><font color="black">None</font></span> 
+        <span class="vfear label weak wred"><font color="black">Weak</font></span> 
+        <span class="vfear label medium mred"><font color="black">Moderate</font></span> 
+        <span class="vfear label strong sred"><font color="black">Strong</font></span> 
+        <span class="vfear label extreme ered"><font color="black">Extreme</font></span>
+      <br>
+
+      <input id="vfear" name="vfear" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment"> Explain what made you feel this way(150-300
+          characters):</label>
+          <label id="commentVfearWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vfearTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vfearText" name="vfearText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Anger</h4> 
+      <br>
+      <label for="comment">Choose the overall level of anger you felt while watching the video:</label>
+      <br>
+        <span class="vanger label none nred"><font color="black">None</font></span> 
+        <span class="vanger label weak wred"><font color="black">Weak</font></span> 
+        <span class="vanger label medium mred"><font color="black">Moderate</font></span> 
+        <span class="vanger label strong sred"><font color="black">Strong</font></span> 
+        <span class="vanger label extreme ered"><font color="black">Extreme</font></span>
+      <br>
+
+      <input id="vanger" name="vanger" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment"> Explain what made you feel this way (150-300
+          characters):</label>
+          <label id="commentVangerWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vangerTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vangerText" name="vangerText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Disgust</h4> 
+      <br>
+      <label for="comment">Choose the overall level of disgust you felt while watching the video:</label>
+      <br>
+        <span class="vdisgust label none nred"><font color="black">None</font></span> 
+        <span class="vdisgust label weak wred"><font color="black">Weak</font></span> 
+        <span class="vdisgust label medium mred"><font color="black">Moderate</font></span> 
+        <span class="vdisgust label strong sred"><font color="black">Strong</font></span> 
+        <span class="vdisgust label extreme ered"><font color="black">Extreme</font></span>
+      <br>
+
+      <input id="vdisgust" name="vdisgust" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment"> Explain what made you feel this way (150-300
+          characters):</label>
+          <label id="commentVdisgustWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vdisgustTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vdisgustText" name="vdisgustText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Surprise</h4> 
+      <br>
+      <label for="comment">Choose the overall level of surprise you felt while watching the video:</label>
+      <br>
+        <span class="vsurprise label none nyellow"><font color="black">None</font></span> 
+        <span class="vsurprise label weak wyellow"><font color="black">Weak</font></span> 
+        <span class="vsurprise label medium myellow"><font color="black">Moderate</font></span> 
+        <span class="vsurprise label strong syellow"><font color="black">Strong</font></span> 
+        <span class="vsurprise label extreme eyellow"><font color="black">Extreme</font></span>
+      <br>
+
+      <input id="vsurprise" name="vsurprise" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment"> Explain what made you feel this way (150-300
+          characters):</label>
+          <label id="commentVsurpriseWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="vsurpriseTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="vsurpriseText" name="vsurpriseText" type="hidden" required="" value=""/>
+
+    
+    </div>
+    <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Viewer Arousal and Valence</h4>
+      <div class="hiddeninfo">Info
+        <span class="hiddeninfotext" style="padding-top: 10px;"> Read the question carefully, the definition of arousal here is different from what you may have heard before.</span>
+      </div>
+      <br>
+      <label for="comment"> How would you score the strength of all the emotions you felt while watching this video? </label>
+      <br>
+      </div>
+       <div class="input-group" style="width: 70%">
+        <div><label>Arousal: 
+        <span id="varousalSliderVal"><font color="black">Neutral - </font></span>
+        <span id="varousalPercentage"><font color="black">50%</font></span>
+        </label>
+        </div>
+        <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="varousalSlider" name="varousal" type="text" />
+      </div>
+      <label for="comment" style="padding-top: 10px;">How Positive or negative are the emotions you felt while whatching this video? </label>
+        <div class="input-group" style="width: 70%">
+          <div><label>Valence: 
+          <span id="vvalenceSliderVal"><font color="black">Neutral - </font></span>
+          <span id="vvalencePercentage"><font color="black">50%</font></span>
+          </label></div>
+            <input style="width: 100%" data-slider-max="100" data-slider-min="0" data-slider-step="1" data-slider-tooltip="hide" data-slider-value="50" id="vvalenceSlider" name="vvalence" type="text" />
+          </div>
+      <br>
+
+      <input id="var_va" name="var_va" type="hidden" value="-1" />
+
+      <div class="form-group" style="padding-top: 5px;">
+          <label for="comment"> Explain what made you feel this way (150-300
+          characters):</label>
+          <label id="commentVar_vaWarning" style="color: red"
+          for="comment">Under 150
+           characters used</label>
+          <textarea required="" onkeyup="validCharCount(this)" class="form-control" rows="5"
+          id="var_vaTextArea"></textarea>
+      </div> 
+      <input class="form-control" id="var_vaText" name="var_vaText" type="hidden" required="" value=""/>
+
+    
+    </div>
+
+    </div>
+    </div>
+
+     
+    <!-- End Categorization Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" /><!-- Open internal style sheet -->
+ 
+<!-- Close internal style sheet --><!-- External JS references -->
+<!-- Open internal javascript -->
+<script type="text/javascript">
+  var testingmode = true;
+
+  //TODO: remove random comments below
+  // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
+  var selectorMin = 0;
+  var selectorMax = 10;
+
+  var label_fors = [
+    ];
+
+  var label_buttons = [
+    "vhappiness", "vsadness", "vfear", "vanger", "vdisgust", "vsurprise", "var_va"
+    ];
+
+  var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  var currentClipLabel = -1;
+
+  function add(identity,min,max,index) {
+    //selectHappinessClip
+  //Create an input type dynamically.
+    var localLabel = label_fors[identity];
+    var id = localLabel + "Slider" + index;
+    console.log(id);
+    var element = document.createElement("div");
+    element.id = id;
+    element.style = "display:inline-block; margin-left: 10px; width: 93%;";
+    var sliderTextID = localLabel + "Sliders";
+    var buttonID = localLabel + "Destroy" + index;
+    var buttonElem = document.createElement("button")
+    // <button style="display:inline-block; margin-left:5px;" class="btn btn-xs btn-default">&#10006;</button> 
+    buttonElem.style = "display:inline-block; margin-left:5px;"
+    buttonElem.className = "btn btn-xs btn-default"
+    buttonElem.innerHTML = "&#10006;"
+    buttonElem.id = buttonID;
+
+
+
+    //selectorOption.text = "Clip " + (labelClipCounts[currentClipLabel] + 1);
+
+    function concreteIndex(concInd){
+      return function(event, ui){
+        //This checks if we truly have the two value we expect to have
+          var temp = (document.getElementById(sliderTextID).value).split(",");
+          var oldVal1 = ((temp[concInd]).split("-"))[0]
+          if(oldVal1 == ui.values[0]){
+            player.seekTo(ui.values[1]);
+          }
+          else{
+            player.seekTo(ui.values[0]);
+          }
+          if(temp[concInd] != ""){
+            temp[concInd] = ui.values[0] + '-' + ui.values[1]; 
+          }
+          temp.join(",");
+          document.getElementById(sliderTextID).value = temp;
+          console.log(document.getElementById(sliderTextID).value);
+        
+      }
+    }
+    function concreteIndex2(concLabel,concInd){
+      return function(){
+        remove(concLabel,concInd);
+      }
+    }
+
+    var segHead = document.getElementById("segmentHeader");
+    //Append the element in page (in span).  
+    segHead.appendChild(element);
+    segHead.appendChild(buttonElem);
+    buttonElem.onclick = concreteIndex2(identity,index);
+
+    //$('#' + id).css("width", ($('#player').width()) - 20 + "px");
+    //TODO: can't use currentClipLabel below, must pass in the actual index because you aren't always creating a new slider
+
+        $( "#" + id ).slider({
+          range: true,
+          max : player.getDuration(),
+          values: [ min, max],
+          slide: concreteIndex(index)
+          })
+      
+
+  }
+
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: "95%",
+          videoId: 'jay6mAeCqV4',
+          events: {
+            'onReady': onPlayerReady,
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
+      }
+
+
+    $(document).ready(function() {
+      for(var k = 0; k < label_buttons.length; k++){
+        var i = k;
+        var currentLabel = label_buttons[k];
+        var commentWarning = ("#comment"+ currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Warning");
+        $(commentWarning).hide();
+      }
+
+
+
+      function setPrimaryLabel(index){
+        $('#createNewSegment').prop('disabled', false);
+
+        if(index == currentClipLabel){
+          for(j = 0; j < label_fors.length; j++){
+            var currentLabel = label_fors[j];
+            var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+            var sliderBaseID = currentLabel + "Slider";
+            var labelSelector = document.getElementById(labelSelectorID);
+            labelSelector.style.backgroundColor = "#80ffaa";
+          }
+          var currentLabel = label_fors[currentClipLabel];
+          var sliderBaseID = currentLabel + "Slider";
+          for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
+            sliderID = sliderBaseID + k.toString();
+            lightRemove(currentClipLabel,(k.toString()));
+          }
+          currentClipLabel = -1;
+          $('#createNewSegment').prop('disabled', true);
+          console.log("wtf");
+          return;
+        }
+        //set colors to greyed out
+        for(j = 0; j < label_fors.length; j++){
+          var currentLabel = label_fors[j];
+          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+          var sliderBaseID = currentLabel + "Slider";
+          var labelSelector = document.getElementById(labelSelectorID);
+          labelSelector.style.backgroundColor = "#80ffaa";
+          //$('#valenceSlider')
+        }
+
+        var currentLabel = label_fors[currentClipLabel];
+        var sliderBaseID = currentLabel + "Slider";
+        for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
+          sliderID = sliderBaseID + k.toString();
+          lightRemove(currentClipLabel,(k.toString()));
+        }
+
+
+      };
+
+      function setLabels(){
+        for(var k = 0; k < label_fors.length; k++){
+          var i = k;
+          var currentLabel = label_fors[k];
+          var commentWarning = ("#comment"+ currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Warning");
+          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
+          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
+          var labelSelector = document.getElementById(labelSelectorID);
+          var clipSelector = document.getElementById(clipSelectorID);
+          labelSelector.style.backgroundColor = "#80ffaa";
+
+          $(commentWarning).hide();
+          //$('#valenceSlider')
+          console.log(labelSelectorID);
+          function concreteIndex(index){
+            return function(){
+              setPrimaryLabel(index);
+            }
+          }
+          $('#' + labelSelectorID).on("click", concreteIndex(i));
+        }
+      }
+      setLabels();
+
+            // highlight selected category
+      $('#arousalSlider').bootstrapSlider({
+        });
+      var inputs = $("#Inputs input:radio");
+      inputs.change(function(){
+        inputs.parent().removeClass("btn-success");
+        inputs.parent().addClass("btn-default");
+        if($(this).is(":checked")){
+          $(this).parent().removeClass("btn-default");
+          $(this).parent().addClass("btn-success");
+        }else{
+          $(this).parent().removeClass("btn-success");
+          $(this).parent().addClass("btn-default");
+        }
+      });
+      // end highlight
+      function changeSliderVal(slideEvt,sliderVal,percVal){
+        $(percVal).text(slideEvt.value + "%");
+        if(slideEvt.value <= 20){ 
+          $(sliderVal).text("Strong Negative - ");
+        }
+        else if(slideEvt.value <= 40){ 
+          $(sliderVal).text("Medium Negative - ");
+        }
+        else if(slideEvt.value <= 60){ 
+          $(sliderVal).text("Neutral - ");
+        }
+        else if(slideEvt.value <= 80){ 
+          $(sliderVal).text("Medium Positive - ");
+        }
+        else{ 
+          $(sliderVal).text("Strong Positive - ");
+        }
+
+      };
+
+      function changeSliderAro(slideEvt,sliderVal,percVal){
+        $(percVal).text(slideEvt.value + "%");
+        if(slideEvt.value <= 20){ 
+          $(sliderVal).text("Low - ");
+        }
+        else if(slideEvt.value <= 40){ 
+          $(sliderVal).text("Medium Low - ");
+        }
+        else if(slideEvt.value <= 60){ 
+          $(sliderVal).text("Neutral - ");
+        }
+        else if(slideEvt.value <= 80){ 
+          $(sliderVal).text("Medium High - ");
+        }
+        else{ 
+          $(sliderVal).text("High - ");
+        }
+
+      };
+
+    // Instructions expand/collapse
+    var content = $('#instructionBody');
+    var trigger = $('#collapseTrigger');
+    content.hide();
+    $('.collapse-text').text('(Click to expand)');
+    trigger.click(function(){
+      content.toggle();
+      var isVisible = content.is(':visible');
+      if(isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+      }else{
+        $('.collapse-text').text('(Click to expand)');
+      }
+    });
+
+
+    $('#arousalSlider').bootstrapSlider();
+    $('#arousalSlider').on("slide", function(slideEvt){
+      changeSliderAro(slideEvt,"#arousalSliderVal", "#arousalPercentage");
+    })
+    $('#valenceSlider').bootstrapSlider();
+    $('#valenceSlider').on("slide", function(slideEvt){
+      changeSliderVal(slideEvt,"#valenceSliderVal" , "#valencePercentage");
+    })
+
+    $('#varousalSlider').bootstrapSlider();
+    $('#varousalSlider').on("slide", function(slideEvt){
+      changeSliderAro(slideEvt,"#varousalSliderVal", "#varousalPercentage");
+    })
+    $('#vvalenceSlider').bootstrapSlider();
+    $('#vvalenceSlider').on("slide", function(slideEvt){
+      changeSliderVal(slideEvt,"#vvalenceSliderVal" , "#vvalencePercentage");
+    })
+    
+
+  });
+
+    $(document).ready(function() {
+      $('.label').click(function() {
+        var element = $(this).get()[0];
+        var classes = element.className.split(' ');
+        var label_for = "";
+        for (var c in classes) {
+          if (label_buttons.indexOf(classes[c]) >= 0) {
+            label_for = classes[c];
+          }
+        }
+        $("." + label_for).removeClass('selected');
+        $(this).addClass('selected');
+        if ($(this).hasClass('none')) {
+          document.getElementById(label_for).setAttribute('value', 0);
+        }
+        else if ($(this).hasClass('weak')) {
+          document.getElementById(label_for).setAttribute('value', 1);
+        }
+        else if ($(this).hasClass('medium')) {
+          document.getElementById(label_for).setAttribute('value', 2);
+        }
+        else if ($(this).hasClass('strong')) {
+          document.getElementById(label_for).setAttribute('value', 3);
+        }
+        else if ($(this).hasClass('extreme')) {
+          document.getElementById(label_for).setAttribute('value', 4);
+        }
+      });
+    });
+    $(document).keypress(function(e) {
+      if (e.which == 13) {
+        $("#trigger").click();
+      }
+    });
+    function resize_iframe(){
+      $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
+      $('#emotion').css("height", ($('.myIframe').width()) * (9/16) + "px");
+      //$('.slider').css("width", ($('.myIframe').height()) * (16/9)- 20 + "px");
+    }
+    window.onresize = resize_iframe;
+    part1_buttons = ["happiness","sadness","anger","disgust","surprise",
+    "persuasion", "logos","pathos","ethos","aggressiveness"];
+    function finished_part1(){
+      finished = true;
+      for(button_idx in part1_buttons){
+        finished = finished  && (document.getElementById(part1_buttons
+          [button_idx]).value != -1);
+      }
+
+      if(finished || testingmode){
+          $('#part2').show();
+          $('#warning').hide();
+      }
+      else{
+        $('#warning').text("You Must Answer all Questions in Part 1")
+        $('#warning').show();
+      }
+      return finished;
+    }
+
+    part2_buttons = ["ethos","pathos", "logos", "genuine", "profesional", "credible", "intro", "setup", "trustable", "human"];
+    function finished_part2(){
+      finished = true;
+      for(button_idx in part2_buttons){
+        finished = finished  && (document.getElementById(part2_buttons
+          [button_idx]).value != -1);
+      }
+
+      if(finished || testingmode){
+          $('#part3').show();
+          $('#warning').hide();
+      }
+      else{
+        $('#warning').text("You Must Answer all Questions in Part 2")
+        $('#warning').show();
+      }
+      return finished;
+    }
+
+    function validCharCount(val){
+      var length = val.value.length;
+      $('#' + (val.id).substring(0,(val.id).length - 4)).val(val.value);
+      console.log($('#' + (val.id).substring(0,(val.id).length - 4)).val());
+      if(length < 150){
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Under 150 characters used");
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
+      }
+      else if(length > 300){
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Over 300 characters used");
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
+      }
+      else{
+        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').hide();
+      }
+    }
+
+    $(function () {
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            if(finished_part1()){
+              $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            else{
+              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
+            }
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+
+    $(function () {
+    $('.button-checkbox2').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            if(finished_part2()){
+              $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            else{
+              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
+            }
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+  $('#selectClip').hide();
+
+  $('#warning').hide();
+  $('#part2').hide();
+  $('#part3').hide();
+
+  </script>
+
+<!-- Close internal javascript -->

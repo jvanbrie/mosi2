@@ -1,0 +1,195 @@
+<!-- HIT template: Sentiment-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+
+<style type="text/css">
+.label {
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  color: black;
+}
+.selected {
+  background-color: #fff59d !important;
+}
+.none-rg {
+  background-color: #ff0000;
+}
+.weak-rg {
+  background-color: #ff9999;
+}
+.medium-rg {
+  background-color: white;
+}
+.strong-rg {
+  background-color: #4dff4d;
+}
+.extreme-rg {
+  background-color: #008000;
+}
+
+#selectClip {
+    margin-left: 10px !important;
+}
+#selectClip .slider-selection {
+  background: yellow;
+}
+</style>
+   <style type="text/css">
+    #collapseTrigger{
+      color:#fff;
+      display: block;
+      text-decoration: none;
+    }
+    #submitButton{
+      white-space: normal;
+    }
+    #instructionBody table{
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    #instructionBody table caption{
+      text-align: left;
+      padding: 0 0 5px 0;
+    }
+    #Inputs{
+      display: block;
+      margin-top: 10px;
+    }
+    .content{
+      margin-bottom: 15px;
+    }
+    .radio:first-of-type{
+      margin-top: -5px;
+    }
+
+    .hiddeninfo {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+    }
+
+    .hiddeninfo .hiddeninfotext {
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the hiddeninfo */
+        position: absolute;
+        z-index: 1;
+    }
+
+    .hiddeninfo:hover .hiddeninfotext {
+        visibility: visible;
+    }
+
+  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOSI2 Annotator</title>
+
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" rel="stylesheet" /><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4=" crossorigin="anonymous"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+
+<section class="container" id="Sentiment"><!-- Instructions (collapsible) -->
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <div class="panel panel-primary"><!-- WARNING: the ids "collapseTrigger"
+      and "instructionBody" are being used to enable expand/collapse feature
+      --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Video Analysis Instructions</strong> 
+      <span class="collapse-text">(Click to expand)</span> </a>
+        <div class="panel-body" id="instructionBody"> Choose the sentiment value of the sentence shown in the video.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- End instructions --><!-- Categorization Layout -->
+
+<!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
+<div style="width: 1100px; margin: 0 auto;">
+  <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="padding-right: 0px; background-color: white; width:600px; max-width: 600px; min-width: 600px; height: auto; display:inline-block; float:left;">
+    <video id="video_clip" style="height: 326px; width: 580px" controls>
+    <!-- TODO: change this particular video to mturk variable -->
+    </video>
+
+  </div>
+
+  <div style="padding-right: 0px; padding-left: 0px; width:500px; max-width: 500px; min-width: 500px; display: inline-block;">
+<div id="vemotion" class="tab-pane">
+    <div style="width:500px; max-width: 500px; padding-left: 10px; padding-right: 10px; min-width: 500px; display: inline-block;  height:300px;">
+
+     <div class="input-group" style="padding: 5px;">
+      <h4 style="display: inline; padding-right: 5px;">Sentiment</h4> 
+      <br>
+      <label for="comment">Choose the overall sentiment of the video: </label>
+      <br>
+        <input type="radio" name="sentiment" value="none" style="margin-left: 40px">
+        <input type="radio" name="sentiment" value="weak" style="margin-left: 80px">
+        <input type="radio" name="sentiment" value="medium" style="margin-left: 55px">
+        <input type="radio" name="sentiment" value="strong" style="margin-left: 50px">
+        <input type="radio" name="sentiment" value="extreme" style="margin-left: 70px">
+      <br>
+        <span class="sent label none-rg"><font color="black">Strong Negative</font></span> 
+        <span class="sent label weak-rg"><font color="black">Weak Negative</font></span> 
+        <span class="sent label medium-rg"><font color="black">Neutral</font></span> 
+        <span class="sent label strong-rg"><font color="black">Weak Positive</font></span> 
+        <span class="sent label extreme-rg"><font color="black">Strong Positive</font></span>
+      <br>
+      <input id="sent" name="sent" type="hidden" value="" />
+    
+</div>
+
+     
+    <!-- End Categorization Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" /><!-- Open internal style sheet -->
+ 
+<!-- Close internal style sheet --><!-- External JS references -->
+<!-- Open internal javascript -->
+<script type="text/javascript">
+  var testingmode = true;
+
+  //TODO: remove random comments below
+  // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
+
+  //TODO: change this to mturk variable
+  video_id = "jay6mAeCqV4"
+  clip_number = ""
+  ip_addr = "128.2.213.179"
+
+
+
+    $(document).ready(function() {
+      var content = $('#instructionBody');
+      var trigger = $('#collapseTrigger');
+      content.hide();
+      $('.collapse-text').text('(Click to expand)');
+      trigger.click(function(){
+        content.toggle();
+        var isVisible = content.is(':visible');
+        if(isVisible){
+          $('.collapse-text').text('(Click to collapse)');
+        }else{
+          $('.collapse-text').text('(Click to expand)');
+        }
+      });
+      document.getElementById("video_clip").innerHTML = "<source src='http://" + ip_addr + "/mp4/" + video_id + clip_number + ".mp4' type='video/mp4'>"
+    });
+
+
+  </script>
+
+<!-- Close internal javascript -->
