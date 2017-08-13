@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<meta charset="utf-8">
+
+
 <style type="text/css">
 .label {
   border: 1px;
@@ -12,20 +15,26 @@
 .selected {
   background-color: #fff59d !important;
 }
-.none-rg {
-  background-color: #ff0000;
+.strongpos-rg {
+  background-color: #004d00;
 }
-.weak-rg {
-  background-color: #ff9999;
+.pos-rg {
+  background-color: #00b300;
+}
+.weakpos-rg {
+  background-color: #1aff1a;
 }
 .medium-rg {
   background-color: white;
 }
-.strong-rg {
-  background-color: #4dff4d;
+.weakneg-rg {
+  background-color: #ff6666;
 }
-.extreme-rg {
-  background-color: #008000;
+.neg-rg {
+  background-color: #ff0000;
+}
+.strongneg-rg {
+  background-color: #b30000;
 }
 
 #selectClip {
@@ -33,6 +42,7 @@
 }
 #selectClip .slider-selection {
   background: yellow;
+  font-weight: bold;
 }
 </style>
    <style type="text/css">
@@ -88,7 +98,6 @@
     }
 
   </style>
-<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MOSI2 Annotator</title>
 
@@ -122,7 +131,7 @@
  in Part 1</h2>
 
 <!-- TODO: replace GvtNyOzGogc with ${VIDEO_ID} -->
-<div style="width: 1100px; margin: 0 auto;">
+<div style="width: 1200px; margin: 0 auto;">
   <div class="myVidCont" data-fullscreen="false" id="videoContainer" style="padding-right: 0px; background-color: white; width:600px; max-width: 600px; min-width: 600px; height: auto; display:inline-block; float:left;">
     <video id="video_clip" style="height: 326px; width: 580px" controls>
     <!-- TODO: change this particular video to mturk variable -->
@@ -130,22 +139,24 @@
 
   </div>
 
-  <div style="padding-right: 0px; padding-left: 0px; width:500px; max-width: 500px; min-width: 500px; display: inline-block;">
+  <div style="padding-right: 0px; padding-left: 0px; width:600px; max-width: 600px; min-width: 600px; display: inline-block;">
 <div id="vemotion" class="tab-pane">
-    <div style="width:500px; max-width: 500px; padding-left: 10px; padding-right: 10px; min-width: 500px; display: inline-block;  height:300px;">
+    <div style="width:600px; max-width: 600px; padding-left: 10px; padding-right: 10px; min-width: 600px; display: inline-block;  height:300px;">
 
      <div class="input-group" style="padding: 5px;">
       <h4 style="display: inline; padding-right: 5px;">Sentiment</h4> 
       <br>
-      <label for="comment">Choose the overall sentiment of the video: </label>
+      <label for="comment">The clip contains exactly one FULL sentence. Choose the sentiment of this sentence: </label>
       <br>
-        <span class="sent label none-rg"><font color="black">Strong Negative</font></span> 
-        <span class="sent label weak-rg"><font color="black">Weak Negative</font></span> 
-        <span class="sent label medium-rg"><font color="black">Neutral</font></span> 
-        <span class="sent label strong-rg"><font color="black">Weak Positive</font></span> 
-        <span class="sent label extreme-rg"><font color="black">Strong Positive</font></span>
+        <span class="sent label strongneg strongneg-rg"><font color="black"> Strong Negative</font></span> 
+        <span class="sent label neg neg-rg"><font color="black">Negative</font></span>
+        <span class="sent label weakneg weakneg-rg"><font color="black">Weak Negative</font></span> 
+        <span class="sent label medium medium-rg"><font color="black">Neutral</font></span>
+        <span class="sent label weakpos weakpos-rg"><font color="black">Weak Positive</font></span>  
+        <span class="sent label pos pos-rg"><font color="black">Positive</font></span> 
+        <span class="sent label strongpos strongpos-rg"><font color="black">Strong Positive</font></span>
       <br>
-      <input id="sent" name="sent" type="hidden" value="" />
+      <input id="sent" name="sent" type="hidden" value="-1" />
     
 </div>
 
@@ -162,8 +173,10 @@
   // FOR REFERENCE: <input data-slider-max="2400" data-slider-min="0" data-slider-step="1" data-slider-value="50" id="selectClip" width="100%" name="selectClip" type="text" /></span> 
 
   //TODO: change this to mturk variable
-  video_id = "jay6mAeCqV4"
-  clip_number = ""
+  video_id = "${VIDEO_ID}"
+  clip_number = "${CLIP}"
+  video_id = "_4PNh8dIILI"
+  clip_number = "2"
   ip_addr = "128.2.213.179"
 
   var selectorMin = 0;
@@ -179,231 +192,7 @@
   var labelClipCounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var currentClipLabel = -1;
 
-  function add(identity,min,max,index) {
-    //selectHappinessClip
-  //Create an input type dynamically.
-    var localLabel = label_fors[identity];
-    var id = localLabel + "Slider" + index;
-    console.log(id);
-    var element = document.createElement("div");
-    element.id = id;
-    element.style = "display:inline-block; margin-left: 10px; width: 93%;";
-    var sliderTextID = localLabel + "Sliders";
-    var buttonID = localLabel + "Destroy" + index;
-    var buttonElem = document.createElement("button")
-    // <button style="display:inline-block; margin-left:5px;" class="btn btn-xs btn-default">&#10006;</button> 
-    buttonElem.style = "display:inline-block; margin-left:5px;"
-    buttonElem.className = "btn btn-xs btn-default"
-    buttonElem.innerHTML = "&#10006;"
-    buttonElem.id = buttonID;
-
-
-
-    //selectorOption.text = "Clip " + (labelClipCounts[currentClipLabel] + 1);
-
-    function concreteIndex(concInd){
-      return function(event, ui){
-        //This checks if we truly have the two value we expect to have
-          var temp = (document.getElementById(sliderTextID).value).split(",");
-          var oldVal1 = ((temp[concInd]).split("-"))[0]
-          if(oldVal1 == ui.values[0]){
-            player.seekTo(ui.values[1]);
-          }
-          else{
-            player.seekTo(ui.values[0]);
-          }
-          if(temp[concInd] != ""){
-            temp[concInd] = ui.values[0] + '-' + ui.values[1]; 
-          }
-          temp.join(",");
-          document.getElementById(sliderTextID).value = temp;
-          console.log(document.getElementById(sliderTextID).value);
-        
-      }
-    }
-    function concreteIndex2(concLabel,concInd){
-      return function(){
-        remove(concLabel,concInd);
-      }
-    }
-
-    var segHead = document.getElementById("segmentHeader");
-    //Append the element in page (in span).  
-    segHead.appendChild(element);
-    segHead.appendChild(buttonElem);
-    buttonElem.onclick = concreteIndex2(identity,index);
-
-    //$('#' + id).css("width", ($('#player').width()) - 20 + "px");
-    //TODO: can't use currentClipLabel below, must pass in the actual index because you aren't always creating a new slider
-
-        $( "#" + id ).slider({
-          range: true,
-          max : player.getDuration(),
-          values: [ min, max],
-          slide: concreteIndex(index)
-          })
-      
-
-  }
-
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '390',
-          width: "95%",
-          videoId: 'jay6mAeCqV4',
-          events: {
-            'onReady': onPlayerReady,
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
-      }
-
-
     $(document).ready(function() {
-      for(var k = 0; k < label_buttons.length; k++){
-        var i = k;
-        var currentLabel = label_buttons[k];
-        var commentWarning = ("#comment"+ currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Warning");
-        $(commentWarning).hide();
-      }
-
-
-
-      function setPrimaryLabel(index){
-        $('#createNewSegment').prop('disabled', false);
-
-        if(index == currentClipLabel){
-          for(j = 0; j < label_fors.length; j++){
-            var currentLabel = label_fors[j];
-            var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-            var sliderBaseID = currentLabel + "Slider";
-            var labelSelector = document.getElementById(labelSelectorID);
-            labelSelector.style.backgroundColor = "#80ffaa";
-          }
-          var currentLabel = label_fors[currentClipLabel];
-          var sliderBaseID = currentLabel + "Slider";
-          for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
-            sliderID = sliderBaseID + k.toString();
-            lightRemove(currentClipLabel,(k.toString()));
-          }
-          currentClipLabel = -1;
-          $('#createNewSegment').prop('disabled', true);
-          console.log("wtf");
-          return;
-        }
-        //set colors to greyed out
-        for(j = 0; j < label_fors.length; j++){
-          var currentLabel = label_fors[j];
-          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-          var sliderBaseID = currentLabel + "Slider";
-          var labelSelector = document.getElementById(labelSelectorID);
-          labelSelector.style.backgroundColor = "#80ffaa";
-          //$('#valenceSlider')
-        }
-
-        var currentLabel = label_fors[currentClipLabel];
-        var sliderBaseID = currentLabel + "Slider";
-        for(k = 0; k < labelClipCounts[currentClipLabel]; k++){
-          sliderID = sliderBaseID + k.toString();
-          lightRemove(currentClipLabel,(k.toString()));
-        }
-
-
-      };
-
-      function setLabels(){
-        for(var k = 0; k < label_fors.length; k++){
-          var i = k;
-          var currentLabel = label_fors[k];
-          var commentWarning = ("#comment"+ currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Warning");
-          var labelSelectorID = ("segment" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1));
-          var clipSelectorID = ("select" + currentLabel.charAt(0).toUpperCase() + currentLabel.slice(1) + "Clip");
-          var labelSelector = document.getElementById(labelSelectorID);
-          var clipSelector = document.getElementById(clipSelectorID);
-          labelSelector.style.backgroundColor = "#80ffaa";
-
-          $(commentWarning).hide();
-          //$('#valenceSlider')
-          console.log(labelSelectorID);
-          function concreteIndex(index){
-            return function(){
-              setPrimaryLabel(index);
-            }
-          }
-          $('#' + labelSelectorID).on("click", concreteIndex(i));
-        }
-      }
-      setLabels();
-
-            // highlight selected category
-      $('#arousalSlider').bootstrapSlider({
-        });
-      var inputs = $("#Inputs input:radio");
-      inputs.change(function(){
-        inputs.parent().removeClass("btn-success");
-        inputs.parent().addClass("btn-default");
-        if($(this).is(":checked")){
-          $(this).parent().removeClass("btn-default");
-          $(this).parent().addClass("btn-success");
-        }else{
-          $(this).parent().removeClass("btn-success");
-          $(this).parent().addClass("btn-default");
-        }
-      });
-      // end highlight
-      function changeSliderVal(slideEvt,sliderVal,percVal){
-        $(percVal).text(slideEvt.value + "%");
-        if(slideEvt.value <= 20){ 
-          $(sliderVal).text("Strong Negative - ");
-        }
-        else if(slideEvt.value <= 40){ 
-          $(sliderVal).text("Medium Negative - ");
-        }
-        else if(slideEvt.value <= 60){ 
-          $(sliderVal).text("Neutral - ");
-        }
-        else if(slideEvt.value <= 80){ 
-          $(sliderVal).text("Medium Positive - ");
-        }
-        else{ 
-          $(sliderVal).text("Strong Positive - ");
-        }
-
-      };
-
-      function changeSliderAro(slideEvt,sliderVal,percVal){
-        $(percVal).text(slideEvt.value + "%");
-        if(slideEvt.value <= 20){ 
-          $(sliderVal).text("Low - ");
-        }
-        else if(slideEvt.value <= 40){ 
-          $(sliderVal).text("Medium Low - ");
-        }
-        else if(slideEvt.value <= 60){ 
-          $(sliderVal).text("Neutral - ");
-        }
-        else if(slideEvt.value <= 80){ 
-          $(sliderVal).text("Medium High - ");
-        }
-        else{ 
-          $(sliderVal).text("High - ");
-        }
-
-      };
-
     // Instructions expand/collapse
     var content = $('#instructionBody');
     var trigger = $('#collapseTrigger');
@@ -420,29 +209,12 @@
     });
 
 
-    $('#arousalSlider').bootstrapSlider();
-    $('#arousalSlider').on("slide", function(slideEvt){
-      changeSliderAro(slideEvt,"#arousalSliderVal", "#arousalPercentage");
-    })
-    $('#valenceSlider').bootstrapSlider();
-    $('#valenceSlider').on("slide", function(slideEvt){
-      changeSliderVal(slideEvt,"#valenceSliderVal" , "#valencePercentage");
-    })
-
-    $('#varousalSlider').bootstrapSlider();
-    $('#varousalSlider').on("slide", function(slideEvt){
-      changeSliderAro(slideEvt,"#varousalSliderVal", "#varousalPercentage");
-    })
-    $('#vvalenceSlider').bootstrapSlider();
-    $('#vvalenceSlider').on("slide", function(slideEvt){
-      changeSliderVal(slideEvt,"#vvalenceSliderVal" , "#vvalencePercentage");
-    })
     
 
   });
 
     $(document).ready(function() {
-      document.getElementById("video_clip").innerHTML = "<source src='http://" + ip_addr + "/mp4/" + video_id + clip_number + ".mp4' type='video/mp4'>"
+      document.getElementById("video_clip").innerHTML = "<source src='http://" + ip_addr + "/clips_v2/" + video_id + "/" + video_id + "_" + clip_number +  ".mp4' type='video/mp4'>"
       $('.label').click(function() {
         var element = $(this).get()[0];
         var classes = element.className.split(' ');
@@ -454,20 +226,26 @@
         }
         $("." + label_for).removeClass('selected');
         $(this).addClass('selected');
-        if ($(this).hasClass('none')) {
+        if ($(this).hasClass('strongneg')) {
           document.getElementById(label_for).setAttribute('value', 0);
         }
-        else if ($(this).hasClass('weak')) {
+        else if ($(this).hasClass('neg')) {
           document.getElementById(label_for).setAttribute('value', 1);
         }
-        else if ($(this).hasClass('medium')) {
+        else if ($(this).hasClass('weakneg')) {
           document.getElementById(label_for).setAttribute('value', 2);
         }
-        else if ($(this).hasClass('strong')) {
+        else if ($(this).hasClass('medium')) {
           document.getElementById(label_for).setAttribute('value', 3);
         }
-        else if ($(this).hasClass('extreme')) {
+        else if ($(this).hasClass('weakpos')) {
           document.getElementById(label_for).setAttribute('value', 4);
+        }
+        else if ($(this).hasClass('pos')) {
+          document.getElementById(label_for).setAttribute('value', 5);
+        }
+        else if ($(this).hasClass('strongpos')) {
+          document.getElementById(label_for).setAttribute('value', 6);
         }
       });
     });
@@ -476,209 +254,7 @@
         $("#trigger").click();
       }
     });
-    function resize_iframe(){
-      $('.myIframe').css("height", ($('.myIframe').width()) * (9/16) + "px");
-      $('#emotion').css("height", ($('.myIframe').width()) * (9/16) + "px");
-      //$('.slider').css("width", ($('.myIframe').height()) * (16/9)- 20 + "px");
-    }
-    window.onresize = resize_iframe;
-    part1_buttons = ["happiness","sadness","anger","disgust","surprise",
-    "persuasion", "logos","pathos","ethos","aggressiveness"];
-    function finished_part1(){
-      finished = true;
-      for(button_idx in part1_buttons){
-        finished = finished  && (document.getElementById(part1_buttons
-          [button_idx]).value != -1);
-      }
 
-      if(finished || testingmode){
-          $('#part2').show();
-          $('#warning').hide();
-      }
-      else{
-        $('#warning').text("You Must Answer all Questions in Part 1")
-        $('#warning').show();
-      }
-      return finished;
-    }
-
-    part2_buttons = ["ethos","pathos", "logos", "genuine", "profesional", "credible", "intro", "setup", "trustable", "human"];
-    function finished_part2(){
-      finished = true;
-      for(button_idx in part2_buttons){
-        finished = finished  && (document.getElementById(part2_buttons
-          [button_idx]).value != -1);
-      }
-
-      if(finished || testingmode){
-          $('#part3').show();
-          $('#warning').hide();
-      }
-      else{
-        $('#warning').text("You Must Answer all Questions in Part 2")
-        $('#warning').show();
-      }
-      return finished;
-    }
-
-    function validCharCount(val){
-      var length = val.value.length;
-      $('#' + (val.id).substring(0,(val.id).length - 4)).val(val.value);
-      console.log($('#' + (val.id).substring(0,(val.id).length - 4)).val());
-      if(length < 150){
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Under 150 characters used");
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
-      }
-      else if(length > 300){
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').text("Over 300 characters used");
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').show();
-      }
-      else{
-        $('#comment' + (val.id).charAt(0).toUpperCase() + ((val.id).substring(1,(val.id).length - 8)) + 'Warning').hide();
-      }
-    }
-
-    $(function () {
-    $('.button-checkbox').each(function () {
-
-        // Settings
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'fa fa-square-o'
-                }
-            };
-
-        // Event Handlers
-        $button.on('click', function () {
-            if(finished_part1()){
-              $checkbox.prop('checked', !$checkbox.is(':checked'));
-            }
-            else{
-              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
-            }
-            $checkbox.triggerHandler('change');
-            updateDisplay();
-        });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
-
-        // Actions
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
-            }
-        }
-
-        // Initialization
-        function init() {
-
-            updateDisplay();
-
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-        init();
-    });
-});
-
-    $(function () {
-    $('.button-checkbox2').each(function () {
-
-        // Settings
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'fa fa-square-o'
-                }
-            };
-
-        // Event Handlers
-        $button.on('click', function () {
-            if(finished_part2()){
-              $checkbox.prop('checked', !$checkbox.is(':checked'));
-            }
-            else{
-              $checkbox.prop('unchecked', !$checkbox.is(':checked'));
-            }
-            $checkbox.triggerHandler('change');
-            updateDisplay();
-        });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
-
-        // Actions
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
-            }
-        }
-
-        // Initialization
-        function init() {
-
-            updateDisplay();
-
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-        init();
-    });
-});
   $('#selectClip').hide();
 
   $('#warning').hide();
