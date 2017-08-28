@@ -41,14 +41,16 @@ def main(args):
 
 		avg_sentences_needed = int((float(target) / float(5)) / float(num_chans))
 		sentences_of_one_sent
-		for chan in channels:
+		for chan in list_sent_dicts[i]:
 			sentences_taken = []
-			for sent in channels[chan]:
+			for sent in list_sent_dicts[i][chan]:
 				if(len(sentences_taken) >= avg_sentences_needed):
 					break
 				#checks if the given sentence has the sentiment that we're currently looking at
 				if(sent[3] == sent_level):
 					sentences_taken += [sent]
+			if(len(sentences_taken) < avg_sentences_needed):
+				del list_sent_dicts[i][chan]
 
 
 		#remove when one iteration works as expected
