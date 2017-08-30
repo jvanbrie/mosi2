@@ -33,6 +33,7 @@ def main(args):
 	print(len(channels))
 
 	list_sent_dicts = [None] * 5
+	list_selected_sents = [None] * 5
 
 	num_chans = len(channels)
 	for i in range(0,5):
@@ -40,7 +41,8 @@ def main(args):
 		sent_level = i+1
 
 		avg_sentences_needed = int((float(target) / float(5)) / float(num_chans))
-		sentences_of_one_sent
+		for chan in list_sent_dicts[i]:
+			sentences_taken = []int((float(target) / float(5)) / float(num_chans))
 		for chan in list_sent_dicts[i]:
 			sentences_taken = []
 			for sent in list_sent_dicts[i][chan]:
@@ -51,6 +53,7 @@ def main(args):
 					sentences_taken += [sent]
 			if(len(sentences_taken) < avg_sentences_needed):
 				del list_sent_dicts[i][chan]
+			list_selected_sents[i] = sentences_taken
 
 
 		#remove when one iteration works as expected

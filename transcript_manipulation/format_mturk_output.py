@@ -19,13 +19,13 @@ def main(args):
 	while((one_line != "") and (one_line != "\n")):
 		line_list = one_line.split(",")
 		if((prev_line_id != None) and (prev_line_id == line_list[-2])):
-			if(ann_count < 5):
+			if(ann_count < 3):
 				write_line = write_line + "," + line_list[-1][:-1]
 		elif(prev_line_id == None):
 			write_line = line_list[-1][:-1]
 			prev_line_id = line_list[-2]
 		else:
-			if(ann_count > 4):
+			if(ann_count > 2):
 				output_file.write(write_line + "\n")
 			write_line = line_list[-1][:-1]
 			prev_line_id = line_list[-2]
