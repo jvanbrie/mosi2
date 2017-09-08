@@ -38,8 +38,9 @@ def main(args):
 			cur.execute(search_command, {"id":vid_id})
 			channel_ids = [a for (a,) in cur.fetchall()]
 			channel_id = channel_ids[0]
-			channel_set.add(channel_id)
-			output_file.write(channel_id + ',' + one_line)
+			if(channel_id[-2:] == '_m') or (channel_id[-2:] == '_f'):
+				channel_set.add(channel_id)
+				output_file.write(channel_id + ',' + ','.join(line_list))
 		except:
 			pass
 

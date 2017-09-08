@@ -10,6 +10,8 @@ def main(args):
 
 	input_file = open(args.input,'r')
 	one_line = input_file.readline()
+	chan_count = 0
+
 	while (one_line != '\n') and (one_line != ''):
 		line_list = one_line.split(',')
 		cid = line_list[0]
@@ -20,37 +22,39 @@ def main(args):
 		except:
 			try:
 				sent_dict[sent][cid] = [one_line]
+				chan_count += 1
 			except:
-				sent_dict[sent] = {cid: one_line}
+				sent_dict[sent] = {cid: [one_line]}
 
 		one_line = input_file.readline()
 
+	print("Total Number of Channels: " + str(chan_count))
+
 	all_vals = {}
-	for sent in sent_dict:
+	for j in range(7):
+		sent = str(j)
 		count = 0
 		y_values = []
-		print(len(sent_dict[sent]))
+		print("Number of Channels With Sent Value " + sent + ": " + str(len(sent_dict[sent])))
+
 		for cid in sent_dict[sent]:
 			sent_dict[sent][cid]
 			vids_in_chan = len(sent_dict[sent][cid])
-			if(vids_in_chan > 40):
-				print(cid)
 			y_values.insert(0,vids_in_chan)
+			count += vids_in_chan
 		all_vals[count] = y_values
 
 		word_count_max = len(y_values)
 		x_plot_words = [None]*(word_count_max)
 		for i in range(0,word_count_max):
 			x_plot_words[i] = i
+		y_values.sort()
+		print("Number of videos of Sent Value " + sent + ": " + str(count))
+
 		plt.plot(x_plot_words, y_values,'ro')
 		plt.title('Sent value:' + sent)
-		plt.axis([0, len(x_plot_words), 0, 100])
+		plt.axis([0, len(x_plot_words), 0, y_values[len(y_values) - 1] + 5])
 		plt.show()
-
-		count += 1
-		print(y_values)
-
-	print(len(all_vals))
 
 
 
