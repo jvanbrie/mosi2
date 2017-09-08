@@ -11,12 +11,11 @@ def main(args):
 	input_file = open(args.input,'r')
 	one_line = input_file.readline()
 	chan_count = 0
-
 	while (one_line != '\n') and (one_line != ''):
 		line_list = one_line.split(',')
 		cid = line_list[0]
 		vid = line_list[1]
-		sent = line_list[3]
+		sent = line_list[3][0:-1]
 		try:
 			sent_dict[sent][cid] += [one_line]
 		except:
@@ -24,7 +23,8 @@ def main(args):
 				sent_dict[sent][cid] = [one_line]
 				chan_count += 1
 			except:
-				sent_dict[sent] = {cid: [one_line]}
+				sent_dict[sent] = {cid: one_line}
+
 
 		one_line = input_file.readline()
 
@@ -36,7 +36,6 @@ def main(args):
 		count = 0
 		y_values = []
 		print("Number of Channels With Sent Value " + sent + ": " + str(len(sent_dict[sent])))
-
 		for cid in sent_dict[sent]:
 			sent_dict[sent][cid]
 			vids_in_chan = len(sent_dict[sent][cid])
@@ -50,11 +49,11 @@ def main(args):
 			x_plot_words[i] = i
 		y_values.sort()
 		print("Number of videos of Sent Value " + sent + ": " + str(count))
-
 		plt.plot(x_plot_words, y_values,'ro')
 		plt.title('Sent value:' + sent)
 		plt.axis([0, len(x_plot_words), 0, y_values[len(y_values) - 1] + 5])
 		plt.show()
+
 
 
 
