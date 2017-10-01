@@ -145,29 +145,78 @@
 
   <div style="padding-right: 0px; padding-left: 0px; width:600px; max-width: 600px; min-width: 600px; height:600px; display: inline-block;">
 <div id="vemotion" class="tab-pane">
-    <div style="width:600px; max-width: 600px; padding-left: 10px; padding-right: 10px; min-width: 600px; display: inline-block;  height:600px;">
+    <div style="width:650px; max-width: 650px; padding-left: 10px; padding-right: 10px; min-width: 650px; display: inline-block; overflow: scroll; height:500px;">
 
      <div class="input-group" style="padding: 5px;">
       <h3 style="color: red">IMPORTANT:</h3>
       <label for="comment">If this is the first HIT you are completing of this batch click on the instructions above and watch the video there to get a sense for the various sentiments that you will see in these annotations.</label>
       <br>
       <br>
-      <h4 style="display: inline; padding-right: 5px;"><b>Sentiment</b></h4> 
+      <h4 style="display: inline; padding-right: 5px;"><b>Instructions:</b></h4> 
       <br>
-        Read the sentence below, then watch the video clip of the speaker saying the sentence, before answering the following question: How would you rate the sentiment expressed in this video segment? Please note that you may or may not agree with what the speaker says. It is important that you only rate the sentiment of the speaker, not yourself.
+        Watch the video clip and then read the transcript, before rating the sentiment and emotions of the speaker? Please note that you may or may not agree with what the speaker says. It is important that you only rate the sentiment and emotions of the speaker, not yourself.
       <br>
       <br>
       <b>Sentence to annotate:</b> ${TRANSCRIPT}
       <br>
       <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Sentiment</b></h4>
       <div>
-        <input type="radio" name="sentiment" value="-3"> Strong Negative<br>
-        <input type="radio" name="sentiment" value="-2"> Negative<br>
-        <input type="radio" name="sentiment" value="-1"> Weak Negative<br>
-        <input type="radio" name="sentiment" value="0"> Neutral<br>
-        <input type="radio" name="sentiment" value="1"> Weak Positive<br>
-        <input type="radio" name="sentiment" value="2"> Positive<br>
-        <input type="radio" name="sentiment" value="3"> Strong Positive
+        <input type="radio" name="sentiment" value="-3" required="required"> (-3) Highly Negative <br>
+        <input type="radio" name="sentiment" value="-2" required="required"> (-2) Negative<br>
+        <input type="radio" name="sentiment" value="-1" required="required"> (-1) Weakly Negative<br>
+        <input type="radio" name="sentiment" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="sentiment" value="1" required="required"> (1) Weakly Positive <br>
+        <input type="radio" name="sentiment" value="2" required="required"> (2) Positive <br>
+        <input type="radio" name="sentiment" value="3" required="required"> (3) Highly Positive
+      </div>
+      <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Happiness</b></h4>
+      <div>
+        <input type="radio" name="happiness" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="happiness" value="1" required="required"> (1) Weakly Happy<br>
+        <input type="radio" name="happiness" value="2" required="required"> (2) Happy<br>
+        <input type="radio" name="happiness" value="3" required="required"> (3) Highly Happy
+      </div>
+      <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Sadness</b></h4>
+      <div>
+        <input type="radio" name="sadness" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="sadness" value="1" required="required"> (1) Weakly Sad<br>
+        <input type="radio" name="sadness" value="2" required="required"> (2) Sad<br>
+        <input type="radio" name="sadness" value="3" required="required"> (3) Highly Sad
+      </div>
+      <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Fear</b></h4>
+      <div>
+        <input type="radio" name="fear" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="fear" value="1" required="required"> (1) Weakly Afraid<br>
+        <input type="radio" name="fear" value="2" required="required"> (2) Afraid<br>
+        <input type="radio" name="fear" value="3" required="required"> (3) Highly Afraid
+      </div>
+      <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Anger</b></h4>
+      <div>
+        <input type="radio" name="anger" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="anger" value="1" required="required"> (1) Weakly Angry<br>
+        <input type="radio" name="anger" value="2" required="required"> (2) Angry<br>
+        <input type="radio" name="anger" value="3" required="required"> (3) Highly Angry
+      </div>
+      <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Disgust</b></h4>
+      <div>
+        <input type="radio" name="disgust" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="disgust" value="1" required="required"> (1) Weakly Disgusted<br>
+        <input type="radio" name="disgust" value="2" required="required"> (2) Disgusted<br>
+        <input type="radio" name="disgust" value="3" required="required"> (3) Highly Disgusted
+      </div>
+      <br>
+      <h4 style="display: inline; padding-right: 5px;"><b>Surprise</b></h4>
+      <div>
+        <input type="radio" name="surprise" value="0" required="required"> (0) Neutral<br>
+        <input type="radio" name="surprise" value="1" required="required"> (1) Weakly Surprised<br>
+        <input type="radio" name="surprise" value="2" required="required"> (2) Surprised<br>
+        <input type="radio" name="surprise" value="3" required="required"> (3) Highly Surprised
       </div>
       <br>
       </div>
